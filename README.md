@@ -1,5 +1,7 @@
 # Welcome to Impala
 
+我对impala项目做了一些优化，可以自定义UDAF函数，使其应用于带over的分析函数，默认情况下其只能用于带group by的聚合函数。
+
 Lightning-fast, distributed [SQL](http://en.wikipedia.org/wiki/SQL) queries for petabytes
 of data stored in Apache Hadoop clusters.
 

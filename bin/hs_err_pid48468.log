@@ -1,0 +1,2033 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x0000000000c7132c, pid=48468, tid=0x00007f9f4916b700
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_171-b11) (build 1.8.0_171-b11)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.171-b11 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [impalad+0x87132c]  impala_udf::FunctionContext::Free(unsigned char*)+0x14c
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000000dd91800):  JavaThread "Thread-10" [_thread_in_native, id=48796, stack(0x00007f9f4896b000,0x00007f9f4916c000)]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x00006c65746f6869
+
+Registers:
+RAX=0x00006c65746f6869, RBX=0x0000000010108060, RCX=0x0000000010108068, RDX=0x0000000010108068
+RSP=0x00007f9f4916a2d0, RBP=0x00007f9f4916a350, RSI=0x0000000010108068, RDI=0x000000000565ff28
+R8 =0x0000000000000010, R9 =0x00007f9f4916b700, R10=0x00007f9f4916a250, R11=0x00007f9fe4bcc190
+R12=0x000000000565ff28, R13=0x0000000000000008, R14=0x0000000000000004, R15=0x0000000010abd0c0
+RIP=0x0000000000c7132c, EFLAGS=0x0000000000010206, CSGSFS=0x002b000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x00007f9f4916a2d0)
+0x00007f9f4916a2d0:   0000000000000008 0000000010108068
+0x00007f9f4916a2e0:   00007f9f4916a350 0000000010108068
+0x00007f9f4916a2f0:   00007f9f4916a350 800097d2f4642c58
+0x00007f9f4916a300:   0000000000000008 00007f9f45756cc8
+0x00007f9f4916a310:   00007f9f4916a3c0 000000000d8280f8
+0x00007f9f4916a320:   000000000d828010 000000000565ff28
+0x00007f9f4916a330:   00007f9fe4e05400 000000000d828118
+0x00007f9f4916a340:   00007f9fe58478c0 0000000010108068
+0x00007f9f4916a350:   00007f9f4916a3c0 00007f9f45756e02
+0x00007f9f4916a360:   000000000d828030 000000000d828020
+0x00007f9f4916a370:   000000000d828010 000000000d828008
+0x00007f9f4916a380:   000000000d828000 000000000565ff28
+0x00007f9f4916a390:   0000000000ed6d45 000000000d8280f0
+0x00007f9f4916a3a0:   003747bdfc3f6f7d 0000000013482000
+0x00007f9f4916a3b0:   000000000d0a5ef0 00007f9f45756ccf
+0x00007f9f4916a3c0:   0000000010169010 000000000102cba4
+0x00007f9f4916a3d0:   000000000c104d60 000000000e385800
+0x00007f9f4916a3e0:   0000000013482000 00007f9f4916a4f0
+0x00007f9f4916a3f0:   0000000010169010 0000000000000001
+0x00007f9f4916a400:   0000000000000000 0000000001008906
+0x00007f9f4916a410:   0000000000000010 0000000002dc36a0
+0x00007f9f4916a420:   00000000109581d8 00007f9f4916a440
+0x00007f9f4916a430:   00007f9f4916a4c0 000000000e385b48
+0x00007f9f4916a440:   0000000000000000 000000000e385800
+0x00007f9f4916a450:   00007f9f4916a4f0 0000000013482000
+0x00007f9f4916a460:   00007f9f4916a620 000000000e385b48
+0x00007f9f4916a470:   0000000000000000 0000000001005ccc
+0x00007f9f4916a480:   0000000002f240e0 000000000d824000
+0x00007f9f4916a490:   00007f9f4916a4f0 00007f9f4916a580
+0x00007f9f4916a4a0:   000000000fbee480 00007f9f4916a4f0
+0x00007f9f4916a4b0:   00007f9f4916a500 0000000000b14c76
+0x00007f9f4916a4c0:   0000000000000000 00000000109581b0 
+
+Instructions: (pc=0x0000000000c7132c)
+0x0000000000c7130c:   40 18 74 25 48 83 a8 08 02 00 00 01 48 8d 05 d4
+0x0000000000c7131c:   ee 2a 02 80 38 00 75 24 48 8b 43 f8 48 83 eb 08
+0x0000000000c7132c:   48 8b 10 48 89 13 48 89 18 48 83 c4 18 5b 5d 41
+0x0000000000c7133c:   5c 41 5d f3 c3 0f 1f 80 00 00 00 00 48 83 c4 18 
+
+Register to memory mapping:
+
+RAX=0x00006c65746f6869 is an unknown value
+RBX=0x0000000010108060 is an unknown value
+RCX=0x0000000010108068 is an unknown value
+RDX=0x0000000010108068 is an unknown value
+RSP=0x00007f9f4916a2d0 is pointing into the stack for thread: 0x000000000dd91800
+RBP=0x00007f9f4916a350 is pointing into the stack for thread: 0x000000000dd91800
+RSI=0x0000000010108068 is an unknown value
+RDI=0x000000000565ff28 is an unknown value
+R8 =0x0000000000000010 is an unknown value
+R9 =0x00007f9f4916b700 is pointing into the stack for thread: 0x000000000dd91800
+R10=0x00007f9f4916a250 is pointing into the stack for thread: 0x000000000dd91800
+R11=0x00007f9fe4bcc190: <offset 0x182190> in /lib64/libc.so.6 at 0x00007f9fe4a4a000
+R12=0x000000000565ff28 is an unknown value
+R13=0x0000000000000008 is an unknown value
+R14=0x0000000000000004 is an unknown value
+R15=0x0000000010abd0c0 is an unknown value
+
+
+Stack: [0x00007f9f4896b000,0x00007f9f4916c000],  sp=0x00007f9f4916a2d0,  free space=8188k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [impalad+0x87132c]  impala_udf::FunctionContext::Free(unsigned char*)+0x14c
+C  [libudasample.48468.1.so+0xae02]  FindNextStepUpdate(impala_udf::FunctionContext*, impala_udf::IntVal const&, impala_udf::IntVal const&, impala_udf::StringVal const&, impala_udf::BigIntVal const&, impala_udf::StringVal*)+0x133
+C  [impalad+0xc2cba4]  impala::AggFnEvaluator::Update(impala::TupleRow const*, impala::Tuple*, void*)+0x1b4
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x000000000e9f4000 JavaThread "Thread-13" [_thread_in_native, id=48570, stack(0x00007f9f6b5d2000,0x00007f9f6bdd3000)]
+  0x0000000010342000 JavaThread "Thread-12" [_thread_in_native, id=48569, stack(0x00007f9f6bdd3000,0x00007f9f6c5d4000)]
+  0x000000000d542800 JavaThread "Thread-11" [_thread_in_native, id=48567, stack(0x00007f9f6cdd5000,0x00007f9f6d5d6000)]
+=>0x000000000dd91800 JavaThread "Thread-10" [_thread_in_native, id=48796, stack(0x00007f9f4896b000,0x00007f9f4916c000)]
+  0x000000000e0c7000 JavaThread "ShortCircuitCache_Cleaner" daemon [_thread_blocked, id=48781, stack(0x00007f9f4af7c000,0x00007f9f4b07d000)]
+  0x000000000d3c7000 JavaThread "org.apache.hadoop.hdfs.PeerCache@6ef6eac1" daemon [_thread_blocked, id=48780, stack(0x00007f9f4b07d000,0x00007f9f4b17e000)]
+  0x000000000e3a3000 JavaThread "IPC Client (2048529572) connection to bjl-mesos2/10.91.66.14:8020 from root" daemon [_thread_blocked, id=48776, stack(0x00007f9f56096000,0x00007f9f56197000)]
+  0x000000000b661000 JavaThread "Thread-7" [_thread_in_native, id=48763, stack(0x00007f9f4bd81000,0x00007f9f4c582000)]
+  0x000000000d3c9000 JavaThread "Thread-6" [_thread_in_native, id=48629, stack(0x00007f9f4f788000,0x00007f9f4ff89000)]
+  0x000000000b660800 JavaThread "IPC Parameter Sending Thread #0" daemon [_thread_blocked, id=48615, stack(0x00007f9f55f95000,0x00007f9f56096000)]
+  0x000000000b66e800 JavaThread "Thread-3" daemon [_thread_in_native, id=48530, stack(0x00007f9f7f82d000,0x00007f9f7f92e000)]
+  0x000000000c6a5000 JavaThread "org.apache.hadoop.fs.FileSystem$Statistics$StatisticsDataReferenceCleaner" daemon [_thread_blocked, id=48529, stack(0x00007f9f80554000,0x00007f9f80655000)]
+  0x000000000aec1800 JavaThread "process reaper" daemon [_thread_blocked, id=48526, stack(0x00007f9f80655000,0x00007f9f8068e000)]
+  0x000000000a5b7000 JavaThread "Service Thread" daemon [_thread_blocked, id=48521, stack(0x00007f9f81adc000,0x00007f9f81bdd000)]
+  0x000000000a5b6000 JavaThread "C1 CompilerThread14" daemon [_thread_blocked, id=48520, stack(0x00007f9f81bdd000,0x00007f9f81cde000)]
+  0x000000000a58d000 JavaThread "C1 CompilerThread13" daemon [_thread_blocked, id=48519, stack(0x00007f9f81cde000,0x00007f9f81ddf000)]
+  0x000000000a58c800 JavaThread "C1 CompilerThread12" daemon [_thread_blocked, id=48518, stack(0x00007f9f81ddf000,0x00007f9f81ee0000)]
+  0x000000000a58b800 JavaThread "C1 CompilerThread11" daemon [_thread_blocked, id=48517, stack(0x00007f9f81ee0000,0x00007f9f81fe1000)]
+  0x000000000a58b000 JavaThread "C1 CompilerThread10" daemon [_thread_blocked, id=48516, stack(0x00007f9f81fe1000,0x00007f9f820e2000)]
+  0x000000000a58a000 JavaThread "C2 CompilerThread9" daemon [_thread_blocked, id=48515, stack(0x00007f9f820e2000,0x00007f9f821e3000)]
+  0x000000000a50d000 JavaThread "C2 CompilerThread8" daemon [_thread_blocked, id=48514, stack(0x00007f9f821e3000,0x00007f9f822e4000)]
+  0x000000000a50c800 JavaThread "C2 CompilerThread7" daemon [_thread_blocked, id=48513, stack(0x00007f9f822e4000,0x00007f9f823e5000)]
+  0x000000000a50b800 JavaThread "C2 CompilerThread6" daemon [_thread_blocked, id=48512, stack(0x00007f9f823e5000,0x00007f9f824e6000)]
+  0x000000000a50b000 JavaThread "C2 CompilerThread5" daemon [_thread_blocked, id=48511, stack(0x00007f9f824e6000,0x00007f9f825e7000)]
+  0x000000000a50a000 JavaThread "C2 CompilerThread4" daemon [_thread_blocked, id=48510, stack(0x00007f9f825e7000,0x00007f9f826e8000)]
+  0x000000000a4d9000 JavaThread "C2 CompilerThread3" daemon [_thread_blocked, id=48509, stack(0x00007f9f826e8000,0x00007f9f827e9000)]
+  0x000000000a4d8800 JavaThread "C2 CompilerThread2" daemon [_thread_blocked, id=48508, stack(0x00007f9f827e9000,0x00007f9f828ea000)]
+  0x000000000a4d7800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=48507, stack(0x00007f9f828ea000,0x00007f9f829eb000)]
+  0x000000000a4d7000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=48506, stack(0x00007f9f829eb000,0x00007f9f82aec000)]
+  0x000000000a4d6000 JavaThread "JDWP Event Helper Thread" daemon [_thread_blocked, id=48505, stack(0x00007f9f82aec000,0x00007f9f82bed000)]
+  0x0000000005787000 JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_in_native, id=48504, stack(0x00007f9f82bed000,0x00007f9f82cee000)]
+  0x0000000005786800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=48503, stack(0x00007f9f82ef2000,0x00007f9f82ff3000)]
+  0x0000000005785800 JavaThread "Finalizer" daemon [_thread_blocked, id=48502, stack(0x00007f9f82ff3000,0x00007f9f830f4000)]
+  0x0000000005785000 JavaThread "Reference Handler" daemon [_thread_blocked, id=48501, stack(0x00007f9f830f4000,0x00007f9f831f5000)]
+  0x0000000005784000 JavaThread "main" [_thread_in_native, id=48468, stack(0x00007fffaa92b000,0x00007fffaaa2b000)]
+
+Other Threads:
+  0x000000000a472000 VMThread [stack: 0x00007f9f831f5000,0x00007f9f832f6000] [id=48500]
+  0x000000000a473000 WatcherThread [stack: 0x00007f9f819db000,0x00007f9f81adc000] [id=48522]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 601600K, used 214941K [0x0000000580100000, 0x00000005aa000000, 0x0000000800000000)
+  eden space 516096K, 41% used [0x0000000580100000,0x000000058d2e74e0,0x000000059f900000)
+  from space 85504K, 0% used [0x000000059f900000,0x000000059f900000,0x00000005a4c80000)
+  to   space 85504K, 0% used [0x00000005a4c80000,0x00000005a4c80000,0x00000005aa000000)
+ ParOldGen       total 885760K, used 16273K [0x0000000080200000, 0x00000000b6300000, 0x0000000580100000)
+  object space 885760K, 1% used [0x0000000080200000,0x00000000811e4550,0x00000000b6300000)
+ Metaspace       used 34077K, capacity 34342K, committed 34688K, reserved 1081344K
+  class space    used 3559K, capacity 3635K, committed 3712K, reserved 1048576K
+
+Card table byte_map: [0x00007f9fc792d000,0x00007f9fcb52d000] byte_map_base: 0x00007f9fc752c000
+
+Marking Bits: (ParMarkBitMap*) 0x00007f9fe7437280
+ Begin Bits: [0x00007f9f87b27000, 0x00007f9fa5b1f000)
+ End Bits:   [0x00007f9fa5b1f000, 0x00007f9fc3b17000)
+
+Polling page: 0x00007f9fe8459000
+
+CodeCache: size=245760Kb used=12618Kb max_used=12775Kb free=233141Kb
+ bounds [0x00007f9fcb8ed000, 0x00007f9fcc57d000, 0x00007f9fda8ed000]
+ total_blobs=3175 nmethods=2686 adapters=406
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 36.846 Thread 0x000000000a58b000 nmethod 2709 0x00007f9fcc5395d0 code [0x00007f9fcc539b20, 0x00007f9fcc53d8f8]
+Event: 36.846 Thread 0x000000000a58c800 2713       3       com.google.protobuf.ByteString::toByteArray (19 bytes)
+Event: 36.847 Thread 0x000000000a58c800 nmethod 2713 0x00007f9fcc538410 code [0x00007f9fcc5385a0, 0x00007f9fcc538938]
+Event: 36.847 Thread 0x000000000a4d7800 2715       4       java.net.URI$Parser::scan (73 bytes)
+Event: 36.847 Thread 0x000000000a4d8800 2714       4       java.net.URI$Parser::scan (50 bytes)
+Event: 36.848 Thread 0x000000000a58b800 2716       1       org.apache.commons.lang.builder.HashCodeBuilder::toHashCode (5 bytes)
+Event: 36.848 Thread 0x000000000a58b800 nmethod 2716 0x00007f9fcc538150 code [0x00007f9fcc5382a0, 0x00007f9fcc5383b0]
+Event: 36.857 Thread 0x000000000a4d8800 nmethod 2714 0x00007f9fcc535e10 code [0x00007f9fcc535fa0, 0x00007f9fcc536758]
+Event: 36.859 Thread 0x000000000a4d7800 nmethod 2715 0x00007f9fcc541390 code [0x00007f9fcc541500, 0x00007f9fcc541d38]
+Event: 37.115 Thread 0x000000000a50a000 nmethod 2419 0x00007f9fcc555f50 code [0x00007f9fcc556d00, 0x00007f9fcc5672c8]
+
+GC Heap History (4 events):
+Event: 2.472 GC heap before
+{Heap before GC invocations=1 (full 0):
+ PSYoungGen      total 601600K, used 289032K [0x0000000580100000, 0x00000005aa000000, 0x0000000800000000)
+  eden space 516096K, 56% used [0x0000000580100000,0x0000000591b42170,0x000000059f900000)
+  from space 85504K, 0% used [0x00000005a4c80000,0x00000005a4c80000,0x00000005aa000000)
+  to   space 85504K, 0% used [0x000000059f900000,0x000000059f900000,0x00000005a4c80000)
+ ParOldGen       total 1375232K, used 0K [0x0000000080200000, 0x00000000d4100000, 0x0000000580100000)
+  object space 1375232K, 0% used [0x0000000080200000,0x0000000080200000,0x00000000d4100000)
+ Metaspace       used 20886K, capacity 21132K, committed 21248K, reserved 1069056K
+  class space    used 2398K, capacity 2476K, committed 2560K, reserved 1048576K
+Event: 2.492 GC heap after
+Heap after GC invocations=1 (full 0):
+ PSYoungGen      total 601600K, used 17357K [0x0000000580100000, 0x00000005aa000000, 0x0000000800000000)
+  eden space 516096K, 0% used [0x0000000580100000,0x0000000580100000,0x000000059f900000)
+  from space 85504K, 20% used [0x000000059f900000,0x00000005a09f3580,0x00000005a4c80000)
+  to   space 85504K, 0% used [0x00000005a4c80000,0x00000005a4c80000,0x00000005aa000000)
+ ParOldGen       total 1375232K, used 88K [0x0000000080200000, 0x00000000d4100000, 0x0000000580100000)
+  object space 1375232K, 0% used [0x0000000080200000,0x0000000080216028,0x00000000d4100000)
+ Metaspace       used 20886K, capacity 21132K, committed 21248K, reserved 1069056K
+  class space    used 2398K, capacity 2476K, committed 2560K, reserved 1048576K
+}
+Event: 2.492 GC heap before
+{Heap before GC invocations=2 (full 1):
+ PSYoungGen      total 601600K, used 17357K [0x0000000580100000, 0x00000005aa000000, 0x0000000800000000)
+  eden space 516096K, 0% used [0x0000000580100000,0x0000000580100000,0x000000059f900000)
+  from space 85504K, 20% used [0x000000059f900000,0x00000005a09f3580,0x00000005a4c80000)
+  to   space 85504K, 0% used [0x00000005a4c80000,0x00000005a4c80000,0x00000005aa000000)
+ ParOldGen       total 1375232K, used 88K [0x0000000080200000, 0x00000000d4100000, 0x0000000580100000)
+  object space 1375232K, 0% used [0x0000000080200000,0x0000000080216028,0x00000000d4100000)
+ Metaspace       used 20886K, capacity 21132K, committed 21248K, reserved 1069056K
+  class space    used 2398K, capacity 2476K, committed 2560K, reserved 1048576K
+Event: 2.535 GC heap after
+Heap after GC invocations=2 (full 1):
+ PSYoungGen      total 601600K, used 0K [0x0000000580100000, 0x00000005aa000000, 0x0000000800000000)
+  eden space 516096K, 0% used [0x0000000580100000,0x0000000580100000,0x000000059f900000)
+  from space 85504K, 0% used [0x000000059f900000,0x000000059f900000,0x00000005a4c80000)
+  to   space 85504K, 0% used [0x00000005a4c80000,0x00000005a4c80000,0x00000005aa000000)
+ ParOldGen       total 885760K, used 16273K [0x0000000080200000, 0x00000000b6300000, 0x0000000580100000)
+  object space 885760K, 1% used [0x0000000080200000,0x00000000811e4550,0x00000000b6300000)
+ Metaspace       used 20886K, capacity 21132K, committed 21248K, reserved 1069056K
+  class space    used 2398K, capacity 2476K, committed 2560K, reserved 1048576K
+}
+
+Deoptimization events (10 events):
+Event: 28.057 Thread 0x000000000b661000 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbfa3a10 method=java.io.DataOutputStream.writeShort(I)V @ 12
+Event: 36.363 Thread 0x000000000b661000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f9fcc2cf43c method=org.apache.impala.catalog.Function.isIndistinguishable(Lorg/apache/impala/catalog/Function;)Z @ 321
+Event: 36.365 Thread 0x000000000b661000 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbf63c14 method=java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/Object; @ 203
+Event: 36.365 Thread 0x000000000b661000 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbf63c14 method=java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/Object; @ 203
+Event: 36.366 Thread 0x000000000b661000 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbf63c14 method=java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/Object; @ 203
+Event: 36.366 Thread 0x000000000b661000 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbf63c14 method=java.util.HashMap.putVal(ILjava/lang/Object;Ljava/lang/Object;ZZ)Ljava/lang/Object; @ 203
+Event: 36.413 Thread 0x000000000b661000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f9fcc09d810 method=java.util.HashMap.hash(Ljava/lang/Object;)I @ 1
+Event: 36.413 Thread 0x000000000b661000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x00007f9fcbdc8b90 method=java.util.HashMap.hash(Ljava/lang/Object;)I @ 1
+Event: 36.621 Thread 0x000000000dd91800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbfa3a10 method=java.io.DataOutputStream.writeShort(I)V @ 12
+Event: 36.745 Thread 0x000000000d542800 Uncommon trap: reason=bimorphic action=maybe_recompile pc=0x00007f9fcbfa3a10 method=java.io.DataOutputStream.writeShort(I)V @ 12
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 1.008 Thread 0x0000000005784000 Exception <a 'java/lang/reflect/InvocationTargetException'> (0x0000000586966958) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/runtime/reflection.cpp, line 1092]
+Event: 1.123 Thread 0x0000000005784000 Exception <a 'java/lang/NoSuchFieldError': method resolution failed> (0x0000000586e91010) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/prims/methodHandles.cpp, line 1167]
+Event: 1.126 Thread 0x0000000005784000 Exception <a 'java/lang/NoSuchFieldError': method resolution failed> (0x0000000586e9e6d0) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/prims/methodHandles.cpp, line 1167]
+Event: 1.249 Thread 0x0000000005784000 Implicit null exception at 0x00007f9fcbecac42 to 0x00007f9fcbecad51
+Event: 2.176 Thread 0x000000000b66e800 Implicit null exception at 0x00007f9fcbf87c03 to 0x00007f9fcbf88539
+Event: 2.264 Thread 0x0000000005784000 Exception <a 'java/lang/ClassNotFoundException': org/apache/impala/util/GlogAppenderBeanInfo> (0x000000058fd81a08) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 2.264 Thread 0x0000000005784000 Exception <a 'java/lang/ClassNotFoundException': org/apache/impala/util/GlogAppenderCustomizer> (0x000000058fdb5750) thrown at [/HUDSON/workspace/8-2-build-linux-amd64/jdk8u171/10807/hotspot/src/share/vm/classfile/systemDictionary.cpp, line 210]
+Event: 2.265 Thread 0x0000000005784000 Implicit null exception at 0x00007f9fcbd13eb6 to 0x00007f9fcbd14389
+Event: 36.413 Thread 0x000000000b661000 Implicit null exception at 0x00007f9fcc09d534 to 0x00007f9fcc09d7f9
+Event: 36.413 Thread 0x000000000b661000 Implicit null exception at 0x00007f9fcbdc88b4 to 0x00007f9fcbdc8b79
+
+Events (10 events):
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc5bd10
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc6e990
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc70710
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc77a90
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc78350
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc7b110
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc7f350
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc81dd0
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc83f90
+Event: 37.116 Thread 0x000000000a50a000 flushing nmethod 0x00007f9fcbc86250
+
+
+Dynamic libraries:
+00400000-02dbc000 r-xp 00000000 08:10 46138753                           /data/jun.zhang/impala-2.11.0-cdh5.14.0/be/build/release/service/impalad
+02dbc000-02f20000 rw-p 029bc000 08:10 46138753                           /data/jun.zhang/impala-2.11.0-cdh5.14.0/be/build/release/service/impalad
+02f20000-02f82000 rw-p 00000000 00:00 0 
+04e50000-13600000 rw-p 00000000 00:00 0                                  [heap]
+13600000-13c00000 rw-p 00000000 00:00 0                                  [heap]
+13c00000-13e00000 rw-p 00000000 00:00 0                                  [heap]
+13e00000-14200000 rw-p 00000000 00:00 0                                  [heap]
+14200000-14600000 rw-p 00000000 00:00 0                                  [heap]
+14600000-14a00000 rw-p 00000000 00:00 0                                  [heap]
+14a00000-14e00000 rw-p 00000000 00:00 0                                  [heap]
+14e00000-17c00000 rw-p 00000000 00:00 0                                  [heap]
+17c00000-17e00000 rw-p 00000000 00:00 0                                  [heap]
+17e00000-18a00000 rw-p 00000000 00:00 0                                  [heap]
+18a00000-18e00000 rw-p 00000000 00:00 0                                  [heap]
+18e00000-19200000 rw-p 00000000 00:00 0                                  [heap]
+19200000-19600000 rw-p 00000000 00:00 0                                  [heap]
+19600000-1d600000 rw-p 00000000 00:00 0                                  [heap]
+1d600000-1d800000 rw-p 00000000 00:00 0                                  [heap]
+1d800000-23200000 rw-p 00000000 00:00 0                                  [heap]
+23200000-23400000 rw-p 00000000 00:00 0                                  [heap]
+23400000-24e00000 rw-p 00000000 00:00 0                                  [heap]
+24e00000-25020000 rw-p 00000000 00:00 0                                  [heap]
+80200000-b6300000 rw-p 00000000 00:00 0 
+b6300000-580100000 ---p 00000000 00:00 0 
+580100000-5aa000000 rw-p 00000000 00:00 0 
+5aa000000-800000000 ---p 00000000 00:00 0 
+800000000-8003a0000 rw-p 00000000 00:00 0 
+8003a0000-840000000 ---p 00000000 00:00 0 
+7f9f42740000-7f9f42742000 r-xp 00000000 00:00 0 
+7f9f42742000-7f9f42743000 ---p 00000000 00:00 0 
+7f9f42743000-7f9f42f43000 rw-p 00000000 00:00 0 
+7f9f42f43000-7f9f42f44000 ---p 00000000 00:00 0 
+7f9f42f44000-7f9f43744000 rw-p 00000000 00:00 0 
+7f9f43744000-7f9f43745000 ---p 00000000 00:00 0 
+7f9f43745000-7f9f43f45000 rw-p 00000000 00:00 0 
+7f9f44748000-7f9f4474a000 r-xp 00000000 00:00 0 
+7f9f4474a000-7f9f4474b000 ---p 00000000 00:00 0 
+7f9f4474b000-7f9f44f4b000 rw-p 00000000 00:00 0 
+7f9f44f4b000-7f9f44f4c000 ---p 00000000 00:00 0 
+7f9f44f4c000-7f9f4574c000 rw-p 00000000 00:00 0 
+7f9f4574c000-7f9f45763000 r-xp 00000000 08:02 408421964                  /tmp/libudasample.48468.1.so
+7f9f45763000-7f9f45963000 ---p 00017000 08:02 408421964                  /tmp/libudasample.48468.1.so
+7f9f45963000-7f9f45964000 r--p 00017000 08:02 408421964                  /tmp/libudasample.48468.1.so
+7f9f45964000-7f9f45965000 rw-p 00018000 08:02 408421964                  /tmp/libudasample.48468.1.so
+7f9f46166000-7f9f46167000 ---p 00000000 00:00 0 
+7f9f46167000-7f9f46967000 rw-p 00000000 00:00 0 
+7f9f46967000-7f9f46968000 ---p 00000000 00:00 0 
+7f9f46968000-7f9f47168000 rw-p 00000000 00:00 0 
+7f9f47969000-7f9f4796a000 ---p 00000000 00:00 0 
+7f9f4796a000-7f9f4816a000 rw-p 00000000 00:00 0 
+7f9f4816a000-7f9f4816b000 ---p 00000000 00:00 0 
+7f9f4816b000-7f9f4896b000 rw-p 00000000 00:00 0 
+7f9f4896b000-7f9f4896e000 ---p 00000000 00:00 0 
+7f9f4896e000-7f9f4916c000 rw-p 00000000 00:00 0 
+7f9f4916c000-7f9f4916d000 ---p 00000000 00:00 0 
+7f9f4916d000-7f9f4996d000 rw-p 00000000 00:00 0 
+7f9f4996d000-7f9f4996e000 ---p 00000000 00:00 0 
+7f9f4996e000-7f9f4a16e000 rw-p 00000000 00:00 0 
+7f9f4a16e000-7f9f4a16f000 ---p 00000000 00:00 0 
+7f9f4a16f000-7f9f4a9af000 rw-p 00000000 00:00 0 
+7f9f4a9af000-7f9f4ab6f000 ---p 00000000 00:00 0 
+7f9f4ab6f000-7f9f4ad6f000 rw-p 00000000 00:00 0 
+7f9f4ad6f000-7f9f4ad7a000 r-xp 00000000 08:02 408421958                  /tmp/libudfsample.48468.0.so
+7f9f4ad7a000-7f9f4af7a000 ---p 0000b000 08:02 408421958                  /tmp/libudfsample.48468.0.so
+7f9f4af7a000-7f9f4af7b000 r--p 0000b000 08:02 408421958                  /tmp/libudfsample.48468.0.so
+7f9f4af7b000-7f9f4af7c000 rw-p 0000c000 08:02 408421958                  /tmp/libudfsample.48468.0.so
+7f9f4af7c000-7f9f4af7f000 ---p 00000000 00:00 0 
+7f9f4af7f000-7f9f4b07d000 rw-p 00000000 00:00 0 
+7f9f4b07d000-7f9f4b080000 ---p 00000000 00:00 0 
+7f9f4b080000-7f9f4b17e000 rw-p 00000000 00:00 0 
+7f9f4b17e000-7f9f4b180000 rw-s 00000000 00:14 42196423                   /dev/shm/HadoopShortCircuitShm_DFSClient_NONMAPREDUCE_1401217093_1_1626276121 (deleted)
+7f9f4b180000-7f9f4b380000 rw-p 00000000 00:00 0 
+7f9f4b380000-7f9f4b381000 ---p 00000000 00:00 0 
+7f9f4b381000-7f9f4bd81000 rw-p 00000000 00:00 0 
+7f9f4bd81000-7f9f4bd84000 ---p 00000000 00:00 0 
+7f9f4bd84000-7f9f4c582000 rw-p 00000000 00:00 0 
+7f9f4c582000-7f9f4c583000 ---p 00000000 00:00 0 
+7f9f4c583000-7f9f4cd83000 rw-p 00000000 00:00 0 
+7f9f4cd83000-7f9f4cd84000 ---p 00000000 00:00 0 
+7f9f4cd84000-7f9f4d584000 rw-p 00000000 00:00 0 
+7f9f4d584000-7f9f4d585000 ---p 00000000 00:00 0 
+7f9f4d585000-7f9f4dd85000 rw-p 00000000 00:00 0 
+7f9f4dd85000-7f9f4dd86000 ---p 00000000 00:00 0 
+7f9f4dd86000-7f9f4e586000 rw-p 00000000 00:00 0 
+7f9f4e586000-7f9f4e587000 ---p 00000000 00:00 0 
+7f9f4e587000-7f9f4ed87000 rw-p 00000000 00:00 0 
+7f9f4ed87000-7f9f4ed88000 ---p 00000000 00:00 0 
+7f9f4ed88000-7f9f4f788000 rw-p 00000000 00:00 0 
+7f9f4f788000-7f9f4f78b000 ---p 00000000 00:00 0 
+7f9f4f78b000-7f9f4ff89000 rw-p 00000000 00:00 0 
+7f9f4ff89000-7f9f4ff8a000 ---p 00000000 00:00 0 
+7f9f4ff8a000-7f9f5078a000 rw-p 00000000 00:00 0 
+7f9f5078a000-7f9f5078b000 ---p 00000000 00:00 0 
+7f9f5078b000-7f9f50f8b000 rw-p 00000000 00:00 0 
+7f9f50f8b000-7f9f50f8c000 ---p 00000000 00:00 0 
+7f9f50f8c000-7f9f5178c000 rw-p 00000000 00:00 0 
+7f9f5178c000-7f9f5178d000 ---p 00000000 00:00 0 
+7f9f5178d000-7f9f51f8d000 rw-p 00000000 00:00 0 
+7f9f51f8d000-7f9f51f8e000 ---p 00000000 00:00 0 
+7f9f51f8e000-7f9f5278e000 rw-p 00000000 00:00 0 
+7f9f5278e000-7f9f5278f000 ---p 00000000 00:00 0 
+7f9f5278f000-7f9f52f8f000 rw-p 00000000 00:00 0 
+7f9f52f8f000-7f9f52f90000 ---p 00000000 00:00 0 
+7f9f52f90000-7f9f53790000 rw-p 00000000 00:00 0 
+7f9f53790000-7f9f53791000 ---p 00000000 00:00 0 
+7f9f53791000-7f9f53f91000 rw-p 00000000 00:00 0 
+7f9f53f91000-7f9f53f92000 ---p 00000000 00:00 0 
+7f9f53f92000-7f9f54792000 rw-p 00000000 00:00 0 
+7f9f54792000-7f9f54793000 ---p 00000000 00:00 0 
+7f9f54793000-7f9f54f93000 rw-p 00000000 00:00 0 
+7f9f54f93000-7f9f54f94000 ---p 00000000 00:00 0 
+7f9f54f94000-7f9f55794000 rw-p 00000000 00:00 0 
+7f9f55794000-7f9f55795000 ---p 00000000 00:00 0 
+7f9f55795000-7f9f55f95000 rw-p 00000000 00:00 0 
+7f9f55f95000-7f9f55f98000 ---p 00000000 00:00 0 
+7f9f55f98000-7f9f56096000 rw-p 00000000 00:00 0 
+7f9f56096000-7f9f56099000 ---p 00000000 00:00 0 
+7f9f56099000-7f9f56397000 rw-p 00000000 00:00 0 
+7f9f56397000-7f9f563a8000 r-xp 00000000 08:02 4608030                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnio.so
+7f9f563a8000-7f9f565a7000 ---p 00011000 08:02 4608030                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnio.so
+7f9f565a7000-7f9f565a8000 rw-p 00010000 08:02 4608030                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnio.so
+7f9f565a8000-7f9f565a9000 ---p 00000000 00:00 0 
+7f9f565a9000-7f9f56da9000 rw-p 00000000 00:00 0 
+7f9f56da9000-7f9f56daa000 ---p 00000000 00:00 0 
+7f9f56daa000-7f9f575aa000 rw-p 00000000 00:00 0 
+7f9f575aa000-7f9f575ab000 ---p 00000000 00:00 0 
+7f9f575ab000-7f9f57dab000 rw-p 00000000 00:00 0 
+7f9f57dab000-7f9f57dac000 ---p 00000000 00:00 0 
+7f9f57dac000-7f9f585ac000 rw-p 00000000 00:00 0 
+7f9f585ac000-7f9f585ad000 ---p 00000000 00:00 0 
+7f9f585ad000-7f9f58dad000 rw-p 00000000 00:00 0 
+7f9f58dad000-7f9f58dae000 ---p 00000000 00:00 0 
+7f9f58dae000-7f9f595ae000 rw-p 00000000 00:00 0 
+7f9f595ae000-7f9f595af000 ---p 00000000 00:00 0 
+7f9f595af000-7f9f59daf000 rw-p 00000000 00:00 0 
+7f9f59daf000-7f9f59db0000 ---p 00000000 00:00 0 
+7f9f59db0000-7f9f5a5b0000 rw-p 00000000 00:00 0 
+7f9f5a5b0000-7f9f5a5b1000 ---p 00000000 00:00 0 
+7f9f5a5b1000-7f9f5adb1000 rw-p 00000000 00:00 0 
+7f9f5adb1000-7f9f5adb2000 ---p 00000000 00:00 0 
+7f9f5adb2000-7f9f5b5b2000 rw-p 00000000 00:00 0 
+7f9f5b5b2000-7f9f5b5b3000 ---p 00000000 00:00 0 
+7f9f5b5b3000-7f9f5bdb3000 rw-p 00000000 00:00 0 
+7f9f5bdb3000-7f9f5bdb4000 ---p 00000000 00:00 0 
+7f9f5bdb4000-7f9f5c5b4000 rw-p 00000000 00:00 0 
+7f9f5c5b4000-7f9f5c5b5000 ---p 00000000 00:00 0 
+7f9f5c5b5000-7f9f5cdb5000 rw-p 00000000 00:00 0 
+7f9f5cdb5000-7f9f5cdb6000 ---p 00000000 00:00 0 
+7f9f5cdb6000-7f9f5d5b6000 rw-p 00000000 00:00 0 
+7f9f5d5b6000-7f9f5d5b7000 ---p 00000000 00:00 0 
+7f9f5d5b7000-7f9f5ddb7000 rw-p 00000000 00:00 0 
+7f9f5ddb7000-7f9f5ddb8000 ---p 00000000 00:00 0 
+7f9f5ddb8000-7f9f5e5b8000 rw-p 00000000 00:00 0 
+7f9f5e5b8000-7f9f5e5b9000 ---p 00000000 00:00 0 
+7f9f5e5b9000-7f9f5edb9000 rw-p 00000000 00:00 0 
+7f9f5edb9000-7f9f5edba000 ---p 00000000 00:00 0 
+7f9f5edba000-7f9f5f5ba000 rw-p 00000000 00:00 0 
+7f9f5f5ba000-7f9f5f5bb000 ---p 00000000 00:00 0 
+7f9f5f5bb000-7f9f5fdbb000 rw-p 00000000 00:00 0 
+7f9f5fdbb000-7f9f5fdbc000 ---p 00000000 00:00 0 
+7f9f5fdbc000-7f9f605bc000 rw-p 00000000 00:00 0 
+7f9f605bc000-7f9f605bd000 ---p 00000000 00:00 0 
+7f9f605bd000-7f9f60dbd000 rw-p 00000000 00:00 0 
+7f9f60dbd000-7f9f60dbe000 ---p 00000000 00:00 0 
+7f9f60dbe000-7f9f615be000 rw-p 00000000 00:00 0 
+7f9f615be000-7f9f615bf000 ---p 00000000 00:00 0 
+7f9f615bf000-7f9f61dbf000 rw-p 00000000 00:00 0 
+7f9f61dbf000-7f9f61dc0000 ---p 00000000 00:00 0 
+7f9f61dc0000-7f9f625c0000 rw-p 00000000 00:00 0 
+7f9f625c0000-7f9f625c1000 ---p 00000000 00:00 0 
+7f9f625c1000-7f9f62dc1000 rw-p 00000000 00:00 0 
+7f9f62dc1000-7f9f62dc2000 ---p 00000000 00:00 0 
+7f9f62dc2000-7f9f635c2000 rw-p 00000000 00:00 0 
+7f9f635c2000-7f9f635c3000 ---p 00000000 00:00 0 
+7f9f635c3000-7f9f63dc3000 rw-p 00000000 00:00 0 
+7f9f63dc3000-7f9f63dc4000 ---p 00000000 00:00 0 
+7f9f63dc4000-7f9f645c4000 rw-p 00000000 00:00 0 
+7f9f645c4000-7f9f645c5000 ---p 00000000 00:00 0 
+7f9f645c5000-7f9f64dc5000 rw-p 00000000 00:00 0 
+7f9f64dc5000-7f9f64dc6000 ---p 00000000 00:00 0 
+7f9f64dc6000-7f9f655c6000 rw-p 00000000 00:00 0 
+7f9f655c6000-7f9f655c7000 ---p 00000000 00:00 0 
+7f9f655c7000-7f9f65dc7000 rw-p 00000000 00:00 0 
+7f9f65dc7000-7f9f65dc8000 ---p 00000000 00:00 0 
+7f9f65dc8000-7f9f665c8000 rw-p 00000000 00:00 0 
+7f9f665c8000-7f9f665c9000 ---p 00000000 00:00 0 
+7f9f665c9000-7f9f66dc9000 rw-p 00000000 00:00 0 
+7f9f66dc9000-7f9f66dca000 ---p 00000000 00:00 0 
+7f9f66dca000-7f9f675ca000 rw-p 00000000 00:00 0 
+7f9f675ca000-7f9f675cb000 ---p 00000000 00:00 0 
+7f9f675cb000-7f9f67dcb000 rw-p 00000000 00:00 0 
+7f9f67dcb000-7f9f67dcc000 ---p 00000000 00:00 0 
+7f9f67dcc000-7f9f685cc000 rw-p 00000000 00:00 0 
+7f9f685cc000-7f9f685cd000 ---p 00000000 00:00 0 
+7f9f685cd000-7f9f68dcd000 rw-p 00000000 00:00 0 
+7f9f68dcd000-7f9f68dce000 ---p 00000000 00:00 0 
+7f9f68dce000-7f9f695ce000 rw-p 00000000 00:00 0 
+7f9f695ce000-7f9f695cf000 ---p 00000000 00:00 0 
+7f9f695cf000-7f9f69dcf000 rw-p 00000000 00:00 0 
+7f9f69dcf000-7f9f69dd0000 ---p 00000000 00:00 0 
+7f9f69dd0000-7f9f6a5d0000 rw-p 00000000 00:00 0 
+7f9f6a5d0000-7f9f6a5d1000 ---p 00000000 00:00 0 
+7f9f6a5d1000-7f9f6add1000 rw-p 00000000 00:00 0 
+7f9f6add1000-7f9f6add2000 ---p 00000000 00:00 0 
+7f9f6add2000-7f9f6b5d2000 rw-p 00000000 00:00 0 
+7f9f6b5d2000-7f9f6b5d5000 ---p 00000000 00:00 0 
+7f9f6b5d5000-7f9f6bdd3000 rw-p 00000000 00:00 0 
+7f9f6bdd3000-7f9f6bdd6000 ---p 00000000 00:00 0 
+7f9f6bdd6000-7f9f6c5d4000 rw-p 00000000 00:00 0 
+7f9f6c5d4000-7f9f6c5d5000 ---p 00000000 00:00 0 
+7f9f6c5d5000-7f9f6cdd5000 rw-p 00000000 00:00 0 
+7f9f6cdd5000-7f9f6cdd8000 ---p 00000000 00:00 0 
+7f9f6cdd8000-7f9f6d5d6000 rw-p 00000000 00:00 0 
+7f9f6d5d6000-7f9f6d5d7000 ---p 00000000 00:00 0 
+7f9f6d5d7000-7f9f6ddd7000 rw-p 00000000 00:00 0 
+7f9f6ddd7000-7f9f6ddd8000 ---p 00000000 00:00 0 
+7f9f6ddd8000-7f9f6e5d8000 rw-p 00000000 00:00 0 
+7f9f6e5d8000-7f9f6e5d9000 ---p 00000000 00:00 0 
+7f9f6e5d9000-7f9f6edd9000 rw-p 00000000 00:00 0 
+7f9f6edd9000-7f9f6edda000 ---p 00000000 00:00 0 
+7f9f6edda000-7f9f6f5da000 rw-p 00000000 00:00 0 
+7f9f6f5da000-7f9f6f5db000 ---p 00000000 00:00 0 
+7f9f6f5db000-7f9f6fddb000 rw-p 00000000 00:00 0 
+7f9f6fddb000-7f9f6fddc000 ---p 00000000 00:00 0 
+7f9f6fddc000-7f9f705dc000 rw-p 00000000 00:00 0 
+7f9f705dc000-7f9f705dd000 ---p 00000000 00:00 0 
+7f9f705dd000-7f9f70ddd000 rw-p 00000000 00:00 0 
+7f9f70ddd000-7f9f70dde000 ---p 00000000 00:00 0 
+7f9f70dde000-7f9f715de000 rw-p 00000000 00:00 0 
+7f9f715de000-7f9f715df000 ---p 00000000 00:00 0 
+7f9f715df000-7f9f71ddf000 rw-p 00000000 00:00 0 
+7f9f71ddf000-7f9f71de0000 ---p 00000000 00:00 0 
+7f9f71de0000-7f9f725e0000 rw-p 00000000 00:00 0 
+7f9f725e0000-7f9f725e1000 ---p 00000000 00:00 0 
+7f9f725e1000-7f9f72de1000 rw-p 00000000 00:00 0 
+7f9f72de1000-7f9f72de2000 ---p 00000000 00:00 0 
+7f9f72de2000-7f9f735e2000 rw-p 00000000 00:00 0 
+7f9f735e2000-7f9f735e3000 ---p 00000000 00:00 0 
+7f9f735e3000-7f9f73de3000 rw-p 00000000 00:00 0 
+7f9f73de3000-7f9f73de4000 ---p 00000000 00:00 0 
+7f9f73de4000-7f9f745e4000 rw-p 00000000 00:00 0 
+7f9f745e4000-7f9f745e5000 ---p 00000000 00:00 0 
+7f9f745e5000-7f9f74de5000 rw-p 00000000 00:00 0 
+7f9f74de5000-7f9f74de6000 ---p 00000000 00:00 0 
+7f9f74de6000-7f9f755e6000 rw-p 00000000 00:00 0 
+7f9f755e6000-7f9f755e7000 ---p 00000000 00:00 0 
+7f9f755e7000-7f9f75de7000 rw-p 00000000 00:00 0 
+7f9f75de7000-7f9f75de8000 ---p 00000000 00:00 0 
+7f9f75de8000-7f9f765e8000 rw-p 00000000 00:00 0 
+7f9f765e8000-7f9f765e9000 ---p 00000000 00:00 0 
+7f9f765e9000-7f9f76de9000 rw-p 00000000 00:00 0 
+7f9f76de9000-7f9f76dea000 ---p 00000000 00:00 0 
+7f9f76dea000-7f9f775ea000 rw-p 00000000 00:00 0 
+7f9f775ea000-7f9f775eb000 ---p 00000000 00:00 0 
+7f9f775eb000-7f9f77deb000 rw-p 00000000 00:00 0 
+7f9f77deb000-7f9f77dec000 ---p 00000000 00:00 0 
+7f9f77dec000-7f9f785ec000 rw-p 00000000 00:00 0 
+7f9f785ec000-7f9f785ed000 ---p 00000000 00:00 0 
+7f9f785ed000-7f9f78ded000 rw-p 00000000 00:00 0 
+7f9f78ded000-7f9f78dee000 ---p 00000000 00:00 0 
+7f9f78dee000-7f9f795ee000 rw-p 00000000 00:00 0 
+7f9f795ee000-7f9f795ef000 ---p 00000000 00:00 0 
+7f9f795ef000-7f9f79def000 rw-p 00000000 00:00 0 
+7f9f79def000-7f9f79df0000 ---p 00000000 00:00 0 
+7f9f79df0000-7f9f7a5f0000 rw-p 00000000 00:00 0 
+7f9f7a5f0000-7f9f7a5f1000 ---p 00000000 00:00 0 
+7f9f7a5f1000-7f9f7adf1000 rw-p 00000000 00:00 0 
+7f9f7adf1000-7f9f7adf2000 ---p 00000000 00:00 0 
+7f9f7adf2000-7f9f7b5f2000 rw-p 00000000 00:00 0 
+7f9f7b5f2000-7f9f7b5f3000 ---p 00000000 00:00 0 
+7f9f7b5f3000-7f9f7bdf3000 rw-p 00000000 00:00 0 
+7f9f7bdf3000-7f9f7bdf4000 ---p 00000000 00:00 0 
+7f9f7bdf4000-7f9f7c5f4000 rw-p 00000000 00:00 0 
+7f9f7c5f4000-7f9f7c5f5000 ---p 00000000 00:00 0 
+7f9f7c5f5000-7f9f7cdf5000 rw-p 00000000 00:00 0 
+7f9f7cdf5000-7f9f7cdf6000 ---p 00000000 00:00 0 
+7f9f7cdf6000-7f9f7d5f6000 rw-p 00000000 00:00 0 
+7f9f7d5f6000-7f9f7d5f7000 ---p 00000000 00:00 0 
+7f9f7d5f7000-7f9f7ddf7000 rw-p 00000000 00:00 0 
+7f9f7ddf7000-7f9f7ddf8000 ---p 00000000 00:00 0 
+7f9f7ddf8000-7f9f7e5f8000 rw-p 00000000 00:00 0 
+7f9f7e5f8000-7f9f7e5f9000 ---p 00000000 00:00 0 
+7f9f7e5f9000-7f9f7edf9000 rw-p 00000000 00:00 0 
+7f9f7edf9000-7f9f7edfa000 ---p 00000000 00:00 0 
+7f9f7edfa000-7f9f7f5fa000 rw-p 00000000 00:00 0 
+7f9f7f5fa000-7f9f7f601000 r--s 00000000 08:02 402739278                  /usr/lib64/gconv/gconv-modules.cache
+7f9f7f601000-7f9f7f615000 r--p 00000000 08:02 191045211                  /usr/share/locale/zh_CN/LC_MESSAGES/libc.mo
+7f9f7f615000-7f9f7f61a000 r--s 002f9000 08:02 278650790                  /root/software/jdk1.8.0_171/jre/lib/charsets.jar
+7f9f7f61a000-7f9f7f81a000 rw-p 00000000 00:00 0 
+7f9f7f81a000-7f9f7f82d000 r--s 00345000 08:02 278650801                  /root/software/jdk1.8.0_171/jre/lib/resources.jar
+7f9f7f82d000-7f9f7f830000 ---p 00000000 00:00 0 
+7f9f7f830000-7f9f7fb2e000 rw-p 00000000 00:00 0 
+7f9f7fb2e000-7f9f7fd2e000 rw-p 00000000 00:00 0 
+7f9f7fd2e000-7f9f7ff2e000 rw-p 00000000 00:00 0 
+7f9f7ff2e000-7f9f7ff44000 r-xp 00000000 08:02 4608027                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnet.so
+7f9f7ff44000-7f9f80144000 ---p 00016000 08:02 4608027                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnet.so
+7f9f80144000-7f9f80145000 rw-p 00016000 08:02 4608027                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnet.so
+7f9f80145000-7f9f80345000 rw-p 00000000 00:00 0 
+7f9f80345000-7f9f80349000 r--s 0003a000 08:02 278650819                  /root/software/jdk1.8.0_171/jre/lib/ext/sunpkcs11.jar
+7f9f80349000-7f9f8034b000 r--s 00009000 08:02 278650812                  /root/software/jdk1.8.0_171/jre/lib/ext/sunec.jar
+7f9f8034b000-7f9f8034e000 r--s 0001a000 08:02 278648196                  /root/software/jdk1.8.0_171/jre/lib/jce.jar
+7f9f8034e000-7f9f80353000 r--s 0009d000 08:02 278650810                  /root/software/jdk1.8.0_171/jre/lib/jsse.jar
+7f9f80353000-7f9f80354000 r-xp 00000000 08:02 4608012                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjaas_unix.so
+7f9f80354000-7f9f80553000 ---p 00001000 08:02 4608012                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjaas_unix.so
+7f9f80553000-7f9f80554000 rw-p 00000000 08:02 4608012                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjaas_unix.so
+7f9f80554000-7f9f80557000 ---p 00000000 00:00 0 
+7f9f80557000-7f9f80655000 rw-p 00000000 00:00 0 
+7f9f80655000-7f9f80658000 ---p 00000000 00:00 0 
+7f9f80658000-7f9f8088e000 rw-p 00000000 00:00 0 
+7f9f8088e000-7f9f808ad000 r-xp 00000000 08:10 45747948                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/thirdparty/hadoop-2.6.0-cdh5.14.0/lib/native/libhadoop.so.1.0.0
+7f9f808ad000-7f9f80aad000 ---p 0001f000 08:10 45747948                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/thirdparty/hadoop-2.6.0-cdh5.14.0/lib/native/libhadoop.so.1.0.0
+7f9f80aad000-7f9f80aae000 rw-p 0001f000 08:10 45747948                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/thirdparty/hadoop-2.6.0-cdh5.14.0/lib/native/libhadoop.so.1.0.0
+7f9f80aae000-7f9f80ab7000 r-xp 00000000 08:02 4608035                    /root/software/jdk1.8.0_171/jre/lib/amd64/libmanagement.so
+7f9f80ab7000-7f9f80cb6000 ---p 00009000 08:02 4608035                    /root/software/jdk1.8.0_171/jre/lib/amd64/libmanagement.so
+7f9f80cb6000-7f9f80cb7000 rw-p 00008000 08:02 4608035                    /root/software/jdk1.8.0_171/jre/lib/amd64/libmanagement.so
+7f9f80cb7000-7f9f80cc1000 r--s 00116000 08:02 278650821                  /root/software/jdk1.8.0_171/jre/lib/ext/localedata.jar
+7f9f80cc1000-7f9f80cdd000 r--s 00393000 08:02 278650814                  /root/software/jdk1.8.0_171/jre/lib/ext/cldrdata.jar
+7f9f80cdd000-7f9f80cef000 r--s 00147000 08:10 46143523                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/zookeeper-3.4.5-cdh5.14.0.jar
+7f9f80cef000-7f9f80cf1000 r--s 00008000 08:10 46143643                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/yarn-extras-0.1-SNAPSHOT.jar
+7f9f80cf1000-7f9f80cf5000 r--s 00014000 08:10 46143650                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/xz-1.0.jar
+7f9f80cf5000-7f9f80cf6000 r--s 00003000 08:10 46143668                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/xmlenc-0.52.jar
+7f9f80cf6000-7f9f80cfe000 r--s 00028000 08:10 46143586                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/xml-apis-1.3.04.jar
+7f9f80cfe000-7f9f80d16000 r--s 00115000 08:10 46143680                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/xercesImpl-2.9.1.jar
+7f9f80d16000-7f9f80d1e000 r--s 00058000 08:10 46143661                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/velocity-1.5.jar
+7f9f80d1e000-7f9f80d1f000 r--s 00003000 08:10 46143505                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/transaction-api-1.1.jar
+7f9f80d1f000-7f9f80d22000 r--s 00014000 08:10 46143479                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/super-csv-2.2.0.jar
+7f9f80d22000-7f9f80d25000 r--s 00022000 08:10 46143605                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/stringtemplate-3.2.1.jar
+7f9f80d25000-7f9f80d27000 r--s 00004000 08:10 46143606                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/stax-api-1.0-2.jar
+7f9f80d27000-7f9f80d29000 r--s 00005000 08:10 46143469                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/stax-api-1.0.1.jar
+7f9f80d29000-7f9f80d2d000 r--s 00036000 08:10 46143522                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/ST4-4.0.4.jar
+7f9f80d2d000-7f9f80d2f000 r--s 000f2000 08:10 46143635                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/snappy-java-1.0.4.1.jar
+7f9f80d2f000-7f9f80d31000 r--s 00001000 08:10 46143687                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/slf4j-log4j12-1.7.5.jar
+7f9f80d31000-7f9f80d33000 r--s 00005000 08:10 46143493                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/slf4j-api-1.7.5.jar
+7f9f80d33000-7f9f80d3c000 r--s 00051000 08:10 46143612                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/shiro-core-1.2.3.jar
+7f9f80d3c000-7f9f80d3e000 r--s 00018000 08:10 46143614                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/servlet-api-2.5.jar
+7f9f80d3e000-7f9f80d40000 r--s 00005000 08:10 46143559                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-provider-file-1.5.1-cdh5.14.0.jar
+7f9f80d40000-7f9f80d83000 r--s 002c7000 08:10 46143594                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-provider-db-1.5.1-cdh5.14.0-sh.jar
+7f9f80d83000-7f9f80d84000 r--s 00006000 08:10 46143475                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-provider-common-1.5.1-cdh5.14.0.jar
+7f9f80d84000-7f9f80d85000 r--s 00002000 08:10 46143647                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-provider-cache-1.5.1-cdh5.14.0.jar
+7f9f80d85000-7f9f80d87000 r--s 00004000 08:10 46143492                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-policy-search-1.5.1-cdh5.14.0.jar
+7f9f80d87000-7f9f80d89000 r--s 00003000 08:10 46143636                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-policy-kafka-1.5.1-cdh5.14.0.jar
+7f9f80d89000-7f9f80d8b000 r--s 00003000 08:10 46143508                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-policy-indexer-1.5.1-cdh5.14.0.jar
+7f9f80d8b000-7f9f80d8d000 r--s 00004000 08:10 46143529                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-policy-db-1.5.1-cdh5.14.0.jar
+7f9f80d8d000-7f9f80d8e000 r--s 00002000 08:10 46143588                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-policy-common-1.5.1-cdh5.14.0.jar
+7f9f80d8e000-7f9f80d95000 r--s 0004c000 08:10 46143576                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-hdfs-common-1.5.1-cdh5.14.0.jar
+7f9f80d95000-7f9f80d96000 r--s 00003000 08:10 46143649                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-core-model-search-1.5.1-cdh5.14.0.jar
+7f9f80d96000-7f9f80d98000 r--s 00003000 08:10 46143542                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-core-model-kafka-1.5.1-cdh5.14.0.jar
+7f9f80d98000-7f9f80d99000 r--s 00003000 08:10 46143486                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-core-model-indexer-1.5.1-cdh5.14.0.jar
+7f9f80d99000-7f9f80d9a000 r--s 00004000 08:10 46143502                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-core-model-db-1.5.1-cdh5.14.0.jar
+7f9f80d9a000-7f9f80d9d000 r--s 0000d000 08:10 46143473                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-core-common-1.5.1-cdh5.14.0.jar
+7f9f80d9d000-7f9f80d9f000 r--s 00005000 08:10 46143600                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-binding-hive-follower-1.5.1-cdh5.14.0.jar
+7f9f80d9f000-7f9f80da0000 r--s 00003000 08:10 46143613                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-binding-hive-conf-1.5.1-cdh5.14.0.jar
+7f9f80da0000-7f9f80da2000 r--s 0001e000 08:10 46143670                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/sentry-binding-hive-1.5.1-cdh5.14.0.jar
+7f9f80da2000-7f9f80daa000 r--s 0007b000 08:10 46143465                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/protobuf-java-2.5.0.jar
+7f9f80daa000-7f9f80db0000 r--s 0007e000 08:10 46143511                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/postgresql-9.0-801.jdbc4.jar
+7f9f80db0000-7f9f80db2000 r--s 0000a000 08:10 46143579                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/pentaho-aggdesigner-algorithm-5.1.5-jhyde.jar
+7f9f80db2000-7f9f80de6000 r--s 00271000 08:10 46143592                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/parquet-hadoop-bundle-1.5.0-cdh5.14.0.jar
+7f9f80de6000-7f9f80de8000 r--s 00006000 08:10 46143484                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/paranamer-2.3.jar
+7f9f80de8000-7f9f80dea000 r--s 0000e000 08:10 46143582                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/oro-2.0.8.jar
+7f9f80dea000-7f9f80deb000 r--s 00004000 08:10 46143689                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/opencsv-2.3.jar
+7f9f80deb000-7f9f80dec000 r--s 0000f000 08:10 46143532                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/okio-1.4.0.jar
+7f9f80dec000-7f9f80df1000 r--s 00049000 08:10 46143616                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/okhttp-2.4.0.jar
+7f9f80df1000-7f9f80e0e000 r--s 00196000 08:10 46143503                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/netty-all-4.0.23.Final.jar
+7f9f80e0e000-7f9f80e27000 r--s 0012c000 08:10 46143552                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/netty-3.10.5.Final.jar
+7f9f80e27000-7f9f80e48000 r--s 00162000 08:10 46143545                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/mockito-all-1.9.5.jar
+7f9f80e48000-7f9f80e49000 r--s 00003000 08:10 46143509                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/metrics-servlets-3.0.2.jar
+7f9f80e49000-7f9f80e4b000 r--s 00006000 08:10 46143494                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/metrics-jvm-3.0.2.jar
+7f9f80e4b000-7f9f80e4c000 r--s 00003000 08:10 46143499                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/metrics-json-3.0.2.jar
+7f9f80e4c000-7f9f80e4e000 r--s 00001000 08:10 46143626                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/metrics-healthchecks-3.0.2.jar
+7f9f80e4e000-7f9f80e51000 r--s 00012000 08:10 46143624                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/metrics-core-3.0.2.jar
+7f9f80e51000-7f9f80e54000 r--s 00012000 08:10 46143551                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/metrics-core-2.2.0.jar
+7f9f80e54000-7f9f80e5b000 r--s 00067000 08:10 46143554                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/mail-1.4.1.jar
+7f9f80e5b000-7f9f80e5c000 r--s 00003000 08:10 46143630                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/logredactor-1.0.3.jar
+7f9f80e5c000-7f9f80e65000 r--s 0006f000 08:10 46143537                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/log4j-1.2.17.jar
+7f9f80e65000-7f9f80e6c000 r--s 0004e000 08:10 46143571                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/libthrift-0.9.0.jar
+7f9f80e6c000-7f9f80e73000 r--s 0003d000 08:10 46143574                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/libfb303-0.9.0.jar
+7f9f80e73000-7f9f80e76000 r--s 000fd000 08:10 46143658                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/leveldbjni-all-1.8.jar
+7f9f80e76000-7f9f80f01000 r--s 0081e000 08:10 46143497                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/kudu-client-1.6.0-cdh5.14.0.jar
+7f9f80f01000-7f9f80f02000 r--s 00003000 08:10 46143675                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jta-1.1.jar
+7f9f80f02000-7f9f80f05000 r--s 00006000 08:10 46143544                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jsr305-3.0.0.jar
+7f9f80f05000-7f9f80f08000 r--s 00016000 08:10 46143570                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jsp-api-2.1.jar
+7f9f80f08000-7f9f80f09000 r--s 00005000 08:10 46143686                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/json-simple-1.1.1.jar
+7f9f80f09000-7f9f80f0c000 r--s 0002b000 08:10 46143598                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jsch-0.1.42.jar
+7f9f80f0c000-7f9f80f0d000 r--s 00002000 08:10 46143561                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jpam-1.1.jar
+7f9f80f0d000-7f9f80f10000 r--s 0002b000 08:10 46143528                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/joni-2.1.2.jar
+7f9f80f10000-7f9f80f20000 r--s 00088000 08:10 46143657                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/joda-time-2.8.1.jar
+7f9f80f20000-7f9f80f22000 r--s 00005000 08:10 46143683                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jms-1.1.jar
+7f9f80f22000-7f9f80f26000 r--s 00031000 08:10 46143504                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jline-2.12.jar
+7f9f80f26000-7f9f80f2b000 r--s 0003c000 08:10 46143567                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-util-7.6.16.v20140903.jar
+7f9f80f2b000-7f9f80f2f000 r--s 00028000 08:10 46143659                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-util-6.1.26.jar
+7f9f80f2f000-7f9f80f31000 r--s 00015000 08:10 46143470                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-servlet-7.6.16.v20140903.jar
+7f9f80f31000-7f9f80f36000 r--s 0004c000 08:10 46143591                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-server-7.6.16.v20140903.jar
+7f9f80f36000-7f9f80f39000 r--s 00012000 08:10 46143585                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-security-7.6.16.v20140903.jar
+7f9f80f39000-7f9f80f3c000 r--s 00016000 08:10 46143684                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-io-7.6.16.v20140903.jar
+7f9f80f3c000-7f9f80f3e000 r--s 00015000 08:10 46143516                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-http-7.6.16.v20140903.jar
+7f9f80f3e000-7f9f80f3f000 r--s 00004000 08:10 46143610                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-continuation-7.6.16.v20140903.jar
+7f9f80f3f000-7f9f80f59000 r--s 00181000 08:10 46143474                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-all-7.6.0.v20120127.jar
+7f9f80f59000-7f9f80f60000 r--s 0007e000 08:10 46143489                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jetty-6.1.26.cloudera.4.jar
+7f9f80f60000-7f9f80f62000 r--s 0000f000 08:10 46143498                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jettison-1.1.jar
+7f9f80f62000-7f9f80f6b000 r--s 0007b000 08:10 46143634                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jets3t-0.9.0.jar
+7f9f80f6b000-7f9f80f6e000 r--s 0001c000 08:10 46143548                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jersey-servlet-1.14.jar
+7f9f80f6e000-7f9f80f80000 r--s 0009d000 08:10 46143693                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jersey-server-1.9.jar
+7f9f80f80000-7f9f80f84000 r--s 00021000 08:10 46143467                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jersey-json-1.9.jar
+7f9f80f84000-7f9f80f85000 r--s 00003000 08:10 46143569                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jersey-guice-1.9.jar
+7f9f80f85000-7f9f80f8f000 r--s 00066000 08:10 46143534                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jersey-core-1.9.jar
+7f9f80f8f000-7f9f80f92000 r--s 0001d000 08:10 46143681                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jersey-client-1.9.jar
+7f9f80f92000-7f9f80f98000 r--s 0002c000 08:10 46143536                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jdo-api-3.0.1.jar
+7f9f80f98000-7f9f80fa1000 r--s 00133000 08:10 46143531                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jcodings-1.0.8.jar
+7f9f80fa1000-7f9f80fb4000 r--s 000c7000 08:10 46143632                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jaxb-impl-2.2.3-1.jar
+7f9f80fb4000-7f9f80fb7000 r--s 00017000 08:10 46143555                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jaxb-api-2.2.2.jar
+7f9f80fb7000-7f9f80fba000 r--s 0001b000 08:10 46143550                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/javax.servlet-2.5.0.v201103041518.jar
+7f9f80fba000-7f9f80fbb000 r--s 00004000 08:10 46143575                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/java-xmlbuilder-0.4.jar
+7f9f80fbb000-7f9f80fbe000 r--s 00011000 08:10 46143603                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/javax.json-1.0.2.jar
+7f9f80fbe000-7f9f80fc4000 r--s 00037000 08:10 46143602                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/javax.jdo-3.2.0-m3.jar
+7f9f80fc4000-7f9f80fc5000 r--s 00000000 08:10 46143565                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/javax.inject-1.jar
+7f9f80fc5000-7f9f80fcf000 r--s 000a5000 08:10 46143581                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/javassist-3.18.1-GA.jar
+7f9f80fcf000-7f9f80fd0000 r--s 00003000 08:10 46143652                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/java-cup-runtime-0.11-a-czt01-cdh.jar
+7f9f80fd0000-7f9f80fd1000 r--s 00015000 08:10 46143587                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/java-cup-0.11-a-czt02-cdh.jar
+7f9f80fd1000-7f9f80fd3000 r--s 00011000 08:10 46143690                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jasper-runtime-5.5.23.jar
+7f9f80fd3000-7f9f80fd8000 r--s 0005f000 08:10 46143495                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jasper-compiler-5.5.23.jar
+7f9f80fd8000-7f9f80fe1000 r--s 0008d000 08:10 46143640                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/janino-2.7.6.jar
+7f9f80fe1000-7f9f80fe3000 r--s 00004000 08:10 46143611                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jamon-runtime-2.3.1.jar
+7f9f80fe3000-7f9f80fe4000 r--s 00007000 08:10 46143583                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-xc-1.8.3.jar
+7f9f80fe4000-7f9f80ff2000 r--s 000b1000 08:10 46143535                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-mapper-asl-1.9.13.jar
+7f9f80ff2000-7f9f80ff3000 r--s 00004000 08:10 46143557                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-jaxrs-1.8.3.jar
+7f9f80ff3000-7f9f81004000 r--s 000c3000 08:10 46143512                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-databind-2.2.3.jar
+7f9f81004000-7f9f81008000 r--s 00035000 08:10 46143625                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-core-asl-1.9.13.jar
+7f9f81008000-7f9f8100c000 r--s 0002c000 08:10 46143654                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-core-2.2.3.jar
+7f9f8100c000-7f9f8100f000 r--s 00006000 08:10 46143543                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/jackson-annotations-2.2.3.jar
+7f9f8100f000-7f9f81025000 r--s 00124000 08:10 46143620                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/ivy-2.4.0.jar
+7f9f81025000-7f9f8102c000 r--s 00055000 08:10 46143481                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/impala-data-source-api-1.0-SNAPSHOT.jar
+7f9f8102c000-7f9f81032000 r--s 00032000 08:10 46143558                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/httpcore-4.2.5.jar
+7f9f81032000-7f9f8103b000 r--s 00061000 08:10 46143541                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/httpclient-4.2.5.jar
+7f9f8103b000-7f9f81054000 r--s 00152000 08:10 46143577                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/htrace-core4-4.0.1-incubating.jar
+7f9f81054000-7f9f8106d000 r--s 00152000 08:10 46143669                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/htrace-core-3.2.0-incubating.jar
+7f9f8106d000-7f9f8106f000 r--s 00006000 08:10 46143631                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/htrace-core-3.0.4.jar
+7f9f8106f000-7f9f81078000 r--s 000a4000 08:10 46143553                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hsqldb-1.8.0.10.jar
+7f9f81078000-7f9f81079000 r--s 00003000 08:10 46143590                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-shims-scheduler-1.1.0-cdh5.14.0.jar
+7f9f81079000-7f9f8107d000 r--s 00018000 08:10 46143682                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-shims-common-1.1.0-cdh5.14.0.jar
+7f9f8107d000-7f9f8107e000 r--s 00002000 08:10 46143596                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-shims-1.1.0-cdh5.14.0.jar
+7f9f8107e000-7f9f81080000 r--s 0000d000 08:10 46143692                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-shims-0.23-1.1.0-cdh5.14.0.jar
+7f9f81080000-7f9f810a4000 r--s 001e2000 08:10 46143562                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-service-1.1.0-cdh5.14.0.jar
+7f9f810a4000-7f9f810b5000 r--s 000bc000 08:10 46143599                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-serde-1.1.0-cdh5.14.0.jar
+7f9f810b5000-7f9f8111f000 r--s 00547000 08:10 46143526                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-metastore-1.1.0-cdh5.14.0.jar
+7f9f8111f000-7f9f81121000 r--s 0000f000 08:10 46143685                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-hcatalog-server-extensions-1.1.0-cdh5.14.0.jar
+7f9f81121000-7f9f81126000 r--s 0003a000 08:10 46143617                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-hcatalog-core-1.1.0-cdh5.14.0.jar
+7f9f81126000-7f9f81128000 r--s 0001b000 08:10 46143615                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-hbase-handler-1.1.0-cdh5.14.0.jar
+7f9f81128000-7f9f81263000 r--s 01178000 08:10 46143472                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-exec-1.1.0-cdh5.14.0.jar
+7f9f81263000-7f9f81268000 r--s 0004c000 08:10 46143483                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-common-1.1.0-cdh5.14.0.jar
+7f9f81268000-7f9f81269000 r--s 00009000 08:10 46143660                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-cli-1.1.0-cdh5.14.0.jar
+7f9f81269000-7f9f8126b000 r--s 00002000 08:10 46143546                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-classification-1.1.0-cdh5.14.0.jar
+7f9f8126b000-7f9f8126e000 r--s 00023000 08:10 46143678                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-beeline-1.1.0-cdh5.14.0.jar
+7f9f8126e000-7f9f8126f000 r--s 00008000 08:10 46143621                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hive-ant-1.1.0-cdh5.14.0.jar
+7f9f8126f000-7f9f81272000 r--s 00015000 08:10 46143578                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/high-scale-lib-1.1.1.jar
+7f9f81272000-7f9f812ae000 r--s 0042f000 08:10 46143477                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hbase-protocol-1.2.0-cdh5.14.0.jar
+7f9f812ae000-7f9f812b8000 r--s 00086000 08:10 46143618                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hbase-common-1.2.0-cdh5.14.0.jar
+7f9f812b8000-7f9f812ca000 r--s 00131000 08:10 46143563                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hbase-client-1.2.0-cdh5.14.0.jar
+7f9f812ca000-7f9f812cc000 r--s 00004000 08:10 46143533                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hbase-annotations-1.2.0-cdh5.14.0.jar
+7f9f812cc000-7f9f812ce000 r--s 00008000 08:10 46143665                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-server-web-proxy-2.6.0-cdh5.14.0.jar
+7f9f812ce000-7f9f812e3000 r--s 00112000 08:10 46143637                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-server-resourcemanager-2.6.0-cdh5.14.0.jar
+7f9f812e3000-7f9f812f1000 r--s 000a5000 08:10 46143485                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-server-nodemanager-2.6.0-cdh5.14.0.jar
+7f9f812f1000-7f9f812f7000 r--s 00048000 08:10 46143520                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-server-common-2.6.0-cdh5.14.0.jar
+7f9f812f7000-7f9f812fb000 r--s 00027000 08:10 46143666                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-server-applicationhistoryservice-2.6.0-cdh5.14.0.jar
+7f9f812fb000-7f9f81311000 r--s 00168000 08:10 46143653                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-common-2.6.0-cdh5.14.0.jar
+7f9f81311000-7f9f81315000 r--s 00024000 08:10 46143655                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-client-2.6.0-cdh5.14.0.jar
+7f9f81315000-7f9f81330000 r--s 001bd000 08:10 46143604                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-yarn-api-2.6.0-cdh5.14.0.jar
+7f9f81330000-7f9f81332000 r--s 0000c000 08:10 46143566                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-mapreduce-client-shuffle-2.6.0-cdh5.14.0.jar
+7f9f81332000-7f9f81334000 r--s 0000a000 08:10 46143515                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-mapreduce-client-jobclient-2.6.0-cdh5.14.0.jar
+7f9f81334000-7f9f8134d000 r--s 00163000 08:10 46143644                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-mapreduce-client-core-2.6.0-cdh5.14.0.jar
+7f9f8134d000-7f9f8135a000 r--s 000ac000 08:10 46143496                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-mapreduce-client-common-2.6.0-cdh5.14.0.jar
+7f9f8135a000-7f9f813fe000 r--s 00a86000 08:10 46143641                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-hdfs-2.6.0-cdh5.14.0.jar
+7f9f813fe000-7f9f81417000 r--s 00197000 08:10 46143480                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-core-2.6.0-mr1-cdh5.14.0.jar
+7f9f81417000-7f9f8144f000 r--s 0032e000 08:10 46143482                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-common-2.6.0-cdh5.14.0.jar
+7f9f8144f000-7f9f81450000 r--s 00007000 08:10 46143628                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-azure-datalake-2.6.0-cdh5.14.0.jar
+7f9f81450000-7f9f81454000 r--s 00048000 08:10 46143646                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-aws-2.6.0-cdh5.14.0.jar
+7f9f81454000-7f9f81457000 r--s 00011000 08:10 46143677                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-auth-2.6.0-cdh5.14.0.jar
+7f9f81457000-7f9f81458000 r--s 00006000 08:10 46143633                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-archives-2.6.0-cdh5.14.0.jar
+7f9f81458000-7f9f8145a000 r--s 00004000 08:10 46143513                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/hadoop-annotations-2.6.0-cdh5.14.0.jar
+7f9f8145a000-7f9f8145c000 r--s 0000e000 08:10 46143601                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/guice-servlet-3.0.jar
+7f9f8145c000-7f9f8146b000 r--s 0009f000 08:10 46143645                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/guice-3.0.jar
+7f9f8146b000-7f9f8148c000 r--s 00172000 08:10 46143478                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/guava-11.0.2.jar
+7f9f8148c000-7f9f81491000 r--s 0002a000 08:10 46143572                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/gson-2.2.4.jar
+7f9f81491000-7f9f81500000 r--s 0063e000 08:10 46143468                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/groovy-all-2.4.4.jar
+7f9f81500000-7f9f81501000 r--s 00003000 08:10 46143589                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/geronimo-jta_1.1_spec-1.1.1.jar
+7f9f81501000-7f9f81503000 r--s 00006000 08:10 46143679                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/geronimo-jaspic_1.0_spec-1.0.jar
+7f9f81503000-7f9f81505000 r--s 00002000 08:10 46143501                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/geronimo-annotation_1.0_spec-1.1.1.jar
+7f9f81505000-7f9f81506000 r--s 00002000 08:10 46143674                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/flatbuffers-java-1.6.0.1.jar
+7f9f81506000-7f9f81508000 r--s 00002000 08:10 46143573                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/findbugs-annotations-1.3.9-1.jar
+7f9f81508000-7f9f8150a000 r--s 00003000 08:10 46143642                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/eigenbase-properties-1.1.4.jar
+7f9f8150a000-7f9f81535000 r--s 0028b000 08:10 46143648                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/derby-10.10.2.0.jar
+7f9f81535000-7f9f8154b000 r--s 001a7000 08:10 46143524                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/datanucleus-rdbms-3.2.12.jar
+7f9f8154b000-7f9f81563000 r--s 001b7000 08:10 46143608                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/datanucleus-core-3.2.12.jar
+7f9f81563000-7f9f81568000 r--s 0004e000 08:10 46143673                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/datanucleus-api-jdo-3.2.6.jar
+7f9f81568000-7f9f8156a000 r--s 0000d000 08:10 46143663                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/curator-x-discovery-2.11.1.jar
+7f9f8156a000-7f9f8156c000 r--s 00009000 08:10 46143593                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/curator-test-2.11.1.jar
+7f9f8156c000-7f9f81574000 r--s 0003b000 08:10 46143549                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/curator-recipes-2.7.1.jar
+7f9f81574000-7f9f8157a000 r--s 00028000 08:10 46143507                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/curator-framework-2.7.1.jar
+7f9f8157a000-7f9f8157c000 r--s 0000f000 08:10 46143622                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/curator-client-2.7.1.jar
+7f9f8157c000-7f9f8159f000 r--s 00344000 08:10 46143521                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/core-3.1.1.jar
+7f9f8159f000-7f9f815a2000 r--s 00019000 08:10 46143607                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-pool2-2.4.2.jar
+7f9f815a2000-7f9f815a5000 r--s 00015000 08:10 46143629                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-pool-1.5.4.jar
+7f9f815a5000-7f9f815aa000 r--s 0003e000 08:10 46143517                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-net-3.1.jar
+7f9f815aa000-7f9f815c7000 r--s 0016a000 08:10 46143510                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-math3-3.1.1.jar
+7f9f815c7000-7f9f815da000 r--s 000df000 08:10 46143619                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-math-2.2.jar
+7f9f815da000-7f9f815dc000 r--s 0000d000 08:10 46143530                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-logging-1.1.1.jar
+7f9f815dc000-7f9f815e2000 r--s 00048000 08:10 46143691                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-lang3-3.1.jar
+7f9f815e2000-7f9f815e7000 r--s 00041000 08:10 46143651                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-lang-2.6.jar
+7f9f815e7000-7f9f815eb000 r--s 0002a000 08:10 46143514                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-io-2.4.jar
+7f9f815eb000-7f9f815f1000 r--s 00045000 08:10 46143595                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-httpclient-3.1.jar
+7f9f815f1000-7f9f815f4000 r--s 00019000 08:10 46143518                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-el-1.0.jar
+7f9f815f4000-7f9f815f8000 r--s 00020000 08:10 46143539                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-digester-1.8.jar
+7f9f815f8000-7f9f815fb000 r--s 00025000 08:10 46143471                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-dbcp-1.4.jar
+7f9f815fb000-7f9f815fc000 r--s 00005000 08:10 46143476                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-daemon-1.0.13.jar
+7f9f815fc000-7f9f81602000 r--s 00043000 08:10 46143564                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-configuration-1.6.jar
+7f9f81602000-7f9f81607000 r--s 00036000 08:10 46143500                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-compress-1.4.1.jar
+7f9f81607000-7f9f81609000 r--s 00006000 08:10 46143638                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-compiler-2.7.6.jar
+7f9f81609000-7f9f819db000 r--s 03926000 08:10 46143560                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/aws-java-sdk-bundle-1.11.134.jar
+7f9f819db000-7f9f819dc000 ---p 00000000 00:00 0 
+7f9f819dc000-7f9f81adc000 rw-p 00000000 00:00 0 
+7f9f81adc000-7f9f81adf000 ---p 00000000 00:00 0 
+7f9f81adf000-7f9f81bdd000 rw-p 00000000 00:00 0 
+7f9f81bdd000-7f9f81be0000 ---p 00000000 00:00 0 
+7f9f81be0000-7f9f81cde000 rw-p 00000000 00:00 0 
+7f9f81cde000-7f9f81ce1000 ---p 00000000 00:00 0 
+7f9f81ce1000-7f9f81ddf000 rw-p 00000000 00:00 0 
+7f9f81ddf000-7f9f81de2000 ---p 00000000 00:00 0 
+7f9f81de2000-7f9f81ee0000 rw-p 00000000 00:00 0 
+7f9f81ee0000-7f9f81ee3000 ---p 00000000 00:00 0 
+7f9f81ee3000-7f9f81fe1000 rw-p 00000000 00:00 0 
+7f9f81fe1000-7f9f81fe4000 ---p 00000000 00:00 0 
+7f9f81fe4000-7f9f820e2000 rw-p 00000000 00:00 0 
+7f9f820e2000-7f9f820e5000 ---p 00000000 00:00 0 
+7f9f820e5000-7f9f821e3000 rw-p 00000000 00:00 0 
+7f9f821e3000-7f9f821e6000 ---p 00000000 00:00 0 
+7f9f821e6000-7f9f822e4000 rw-p 00000000 00:00 0 
+7f9f822e4000-7f9f822e7000 ---p 00000000 00:00 0 
+7f9f822e7000-7f9f823e5000 rw-p 00000000 00:00 0 
+7f9f823e5000-7f9f823e8000 ---p 00000000 00:00 0 
+7f9f823e8000-7f9f824e6000 rw-p 00000000 00:00 0 
+7f9f824e6000-7f9f824e9000 ---p 00000000 00:00 0 
+7f9f824e9000-7f9f825e7000 rw-p 00000000 00:00 0 
+7f9f825e7000-7f9f825ea000 ---p 00000000 00:00 0 
+7f9f825ea000-7f9f826e8000 rw-p 00000000 00:00 0 
+7f9f826e8000-7f9f826eb000 ---p 00000000 00:00 0 
+7f9f826eb000-7f9f827e9000 rw-p 00000000 00:00 0 
+7f9f827e9000-7f9f827ec000 ---p 00000000 00:00 0 
+7f9f827ec000-7f9f828ea000 rw-p 00000000 00:00 0 
+7f9f828ea000-7f9f828ed000 ---p 00000000 00:00 0 
+7f9f828ed000-7f9f829eb000 rw-p 00000000 00:00 0 
+7f9f829eb000-7f9f829ee000 ---p 00000000 00:00 0 
+7f9f829ee000-7f9f82aec000 rw-p 00000000 00:00 0 
+7f9f82aec000-7f9f82aef000 ---p 00000000 00:00 0 
+7f9f82aef000-7f9f82bed000 rw-p 00000000 00:00 0 
+7f9f82bed000-7f9f82bf0000 ---p 00000000 00:00 0 
+7f9f82bf0000-7f9f82cee000 rw-p 00000000 00:00 0 
+7f9f82cee000-7f9f82cf2000 r-xp 00000000 08:02 4607964                    /root/software/jdk1.8.0_171/jre/lib/amd64/libdt_socket.so
+7f9f82cf2000-7f9f82ef1000 ---p 00004000 08:02 4607964                    /root/software/jdk1.8.0_171/jre/lib/amd64/libdt_socket.so
+7f9f82ef1000-7f9f82ef2000 rw-p 00003000 08:02 4607964                    /root/software/jdk1.8.0_171/jre/lib/amd64/libdt_socket.so
+7f9f82ef2000-7f9f82ef5000 ---p 00000000 00:00 0 
+7f9f82ef5000-7f9f82ff3000 rw-p 00000000 00:00 0 
+7f9f82ff3000-7f9f82ff6000 ---p 00000000 00:00 0 
+7f9f82ff6000-7f9f830f4000 rw-p 00000000 00:00 0 
+7f9f830f4000-7f9f830f7000 ---p 00000000 00:00 0 
+7f9f830f7000-7f9f831f5000 rw-p 00000000 00:00 0 
+7f9f831f5000-7f9f831f6000 ---p 00000000 00:00 0 
+7f9f831f6000-7f9f832f6000 rw-p 00000000 00:00 0 
+7f9f832f6000-7f9f834d0000 r--s 03d68000 08:02 278650792                  /root/software/jdk1.8.0_171/jre/lib/rt.jar
+7f9f834d0000-7f9fc3b17000 rw-p 00000000 00:00 0 
+7f9fc3b17000-7f9fc3b18000 ---p 00000000 00:00 0 
+7f9fc3b18000-7f9fc3c18000 rw-p 00000000 00:00 0 
+7f9fc3c18000-7f9fc3c19000 ---p 00000000 00:00 0 
+7f9fc3c19000-7f9fc3d19000 rw-p 00000000 00:00 0 
+7f9fc3d19000-7f9fc3d1a000 ---p 00000000 00:00 0 
+7f9fc3d1a000-7f9fc3e1a000 rw-p 00000000 00:00 0 
+7f9fc3e1a000-7f9fc3e1b000 ---p 00000000 00:00 0 
+7f9fc3e1b000-7f9fc3f1b000 rw-p 00000000 00:00 0 
+7f9fc3f1b000-7f9fc3f1c000 ---p 00000000 00:00 0 
+7f9fc3f1c000-7f9fc401c000 rw-p 00000000 00:00 0 
+7f9fc401c000-7f9fc401d000 ---p 00000000 00:00 0 
+7f9fc401d000-7f9fc411d000 rw-p 00000000 00:00 0 
+7f9fc411d000-7f9fc411e000 ---p 00000000 00:00 0 
+7f9fc411e000-7f9fc421e000 rw-p 00000000 00:00 0 
+7f9fc421e000-7f9fc421f000 ---p 00000000 00:00 0 
+7f9fc421f000-7f9fc431f000 rw-p 00000000 00:00 0 
+7f9fc431f000-7f9fc4320000 ---p 00000000 00:00 0 
+7f9fc4320000-7f9fc4420000 rw-p 00000000 00:00 0 
+7f9fc4420000-7f9fc4421000 ---p 00000000 00:00 0 
+7f9fc4421000-7f9fc4521000 rw-p 00000000 00:00 0 
+7f9fc4521000-7f9fc4522000 ---p 00000000 00:00 0 
+7f9fc4522000-7f9fc4622000 rw-p 00000000 00:00 0 
+7f9fc4622000-7f9fc4623000 ---p 00000000 00:00 0 
+7f9fc4623000-7f9fc4723000 rw-p 00000000 00:00 0 
+7f9fc4723000-7f9fc4724000 ---p 00000000 00:00 0 
+7f9fc4724000-7f9fc4824000 rw-p 00000000 00:00 0 
+7f9fc4824000-7f9fc4825000 ---p 00000000 00:00 0 
+7f9fc4825000-7f9fc4925000 rw-p 00000000 00:00 0 
+7f9fc4925000-7f9fc4926000 ---p 00000000 00:00 0 
+7f9fc4926000-7f9fc4a26000 rw-p 00000000 00:00 0 
+7f9fc4a26000-7f9fc4a27000 ---p 00000000 00:00 0 
+7f9fc4a27000-7f9fc4b27000 rw-p 00000000 00:00 0 
+7f9fc4b27000-7f9fc4b28000 ---p 00000000 00:00 0 
+7f9fc4b28000-7f9fc4c28000 rw-p 00000000 00:00 0 
+7f9fc4c28000-7f9fc4c29000 ---p 00000000 00:00 0 
+7f9fc4c29000-7f9fc4d29000 rw-p 00000000 00:00 0 
+7f9fc4d29000-7f9fc4d2a000 ---p 00000000 00:00 0 
+7f9fc4d2a000-7f9fc4e2a000 rw-p 00000000 00:00 0 
+7f9fc4e2a000-7f9fc4e2b000 ---p 00000000 00:00 0 
+7f9fc4e2b000-7f9fc4f2b000 rw-p 00000000 00:00 0 
+7f9fc4f2b000-7f9fc4f2c000 ---p 00000000 00:00 0 
+7f9fc4f2c000-7f9fc502c000 rw-p 00000000 00:00 0 
+7f9fc502c000-7f9fc502d000 ---p 00000000 00:00 0 
+7f9fc502d000-7f9fc52de000 rw-p 00000000 00:00 0 
+7f9fc52de000-7f9fc792d000 ---p 00000000 00:00 0 
+7f9fc792d000-7f9fc7ade000 rw-p 00000000 00:00 0 
+7f9fc7ade000-7f9fca12c000 ---p 00000000 00:00 0 
+7f9fca12c000-7f9fca27c000 rw-p 00000000 00:00 0 
+7f9fca27c000-7f9fcb52c000 ---p 00000000 00:00 0 
+7f9fcb52c000-7f9fcb560000 rw-p 00000000 00:00 0 
+7f9fcb560000-7f9fcb8ed000 ---p 00000000 00:00 0 
+7f9fcb8ed000-7f9fcc57d000 rwxp 00000000 00:00 0 
+7f9fcc57d000-7f9fda8ed000 ---p 00000000 00:00 0 
+7f9fda8ed000-7f9fda908000 r-xp 00000000 08:02 4608023                    /root/software/jdk1.8.0_171/jre/lib/amd64/libzip.so
+7f9fda908000-7f9fdab08000 ---p 0001b000 08:02 4608023                    /root/software/jdk1.8.0_171/jre/lib/amd64/libzip.so
+7f9fdab08000-7f9fdab09000 rw-p 0001b000 08:02 4608023                    /root/software/jdk1.8.0_171/jre/lib/amd64/libzip.so
+7f9fdab09000-7f9fdab15000 r-xp 00000000 08:02 268664881                  /usr/lib64/libnss_files-2.17.so
+7f9fdab15000-7f9fdad14000 ---p 0000c000 08:02 268664881                  /usr/lib64/libnss_files-2.17.so
+7f9fdad14000-7f9fdad15000 r--p 0000b000 08:02 268664881                  /usr/lib64/libnss_files-2.17.so
+7f9fdad15000-7f9fdad16000 rw-p 0000c000 08:02 268664881                  /usr/lib64/libnss_files-2.17.so
+7f9fdad16000-7f9fdad1c000 rw-p 00000000 00:00 0 
+7f9fdad1c000-7f9fe1245000 r--p 00000000 08:02 268664849                  /usr/lib/locale/locale-archive
+7f9fe1245000-7f9fe1247000 r-xp 00000000 08:02 4607966                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnpt.so
+7f9fe1247000-7f9fe1447000 ---p 00002000 08:02 4607966                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnpt.so
+7f9fe1447000-7f9fe1448000 rw-p 00002000 08:02 4607966                    /root/software/jdk1.8.0_171/jre/lib/amd64/libnpt.so
+7f9fe1448000-7f9fe1482000 r-xp 00000000 08:02 4608010                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjdwp.so
+7f9fe1482000-7f9fe1681000 ---p 0003a000 08:02 4608010                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjdwp.so
+7f9fe1681000-7f9fe1682000 rw-p 00039000 08:02 4608010                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjdwp.so
+7f9fe1682000-7f9fe1683000 rw-p 00000000 00:00 0 
+7f9fe1683000-7f9fe16ae000 r-xp 00000000 08:02 4608017                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjava.so
+7f9fe16ae000-7f9fe18ad000 ---p 0002b000 08:02 4608017                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjava.so
+7f9fe18ad000-7f9fe18af000 rw-p 0002a000 08:02 4608017                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjava.so
+7f9fe18af000-7f9fe18bc000 r-xp 00000000 08:02 4608022                    /root/software/jdk1.8.0_171/jre/lib/amd64/libverify.so
+7f9fe18bc000-7f9fe1abc000 ---p 0000d000 08:02 4608022                    /root/software/jdk1.8.0_171/jre/lib/amd64/libverify.so
+7f9fe1abc000-7f9fe1abe000 rw-p 0000d000 08:02 4608022                    /root/software/jdk1.8.0_171/jre/lib/amd64/libverify.so
+7f9fe1abe000-7f9fe1abf000 ---p 00000000 00:00 0 
+7f9fe1abf000-7f9fe22bf000 rw-p 00000000 00:00 0 
+7f9fe22bf000-7f9fe22c0000 ---p 00000000 00:00 0 
+7f9fe22c0000-7f9fe2ac0000 rw-p 00000000 00:00 0 
+7f9fe2ac0000-7f9fe2ac1000 ---p 00000000 00:00 0 
+7f9fe2ac1000-7f9fe32c1000 rw-p 00000000 00:00 0 
+7f9fe32c1000-7f9fe3321000 r-xp 00000000 08:02 280855960                  /usr/lib64/libpcre.so.1.2.0
+7f9fe3321000-7f9fe3521000 ---p 00060000 08:02 280855960                  /usr/lib64/libpcre.so.1.2.0
+7f9fe3521000-7f9fe3522000 r--p 00060000 08:02 280855960                  /usr/lib64/libpcre.so.1.2.0
+7f9fe3522000-7f9fe3523000 rw-p 00061000 08:02 280855960                  /usr/lib64/libpcre.so.1.2.0
+7f9fe3523000-7f9fe3547000 r-xp 00000000 08:02 280855962                  /usr/lib64/libselinux.so.1
+7f9fe3547000-7f9fe3746000 ---p 00024000 08:02 280855962                  /usr/lib64/libselinux.so.1
+7f9fe3746000-7f9fe3747000 r--p 00023000 08:02 280855962                  /usr/lib64/libselinux.so.1
+7f9fe3747000-7f9fe3748000 rw-p 00024000 08:02 280855962                  /usr/lib64/libselinux.so.1
+7f9fe3748000-7f9fe374a000 rw-p 00000000 00:00 0 
+7f9fe374a000-7f9fe374c000 r-xp 00000000 08:02 269632545                  /usr/lib64/libfreebl3.so
+7f9fe374c000-7f9fe394b000 ---p 00002000 08:02 269632545                  /usr/lib64/libfreebl3.so
+7f9fe394b000-7f9fe394c000 r--p 00001000 08:02 269632545                  /usr/lib64/libfreebl3.so
+7f9fe394c000-7f9fe394d000 rw-p 00002000 08:02 269632545                  /usr/lib64/libfreebl3.so
+7f9fe394d000-7f9fe3950000 r-xp 00000000 08:02 268665351                  /usr/lib64/libkeyutils.so.1.5
+7f9fe3950000-7f9fe3b4f000 ---p 00003000 08:02 268665351                  /usr/lib64/libkeyutils.so.1.5
+7f9fe3b4f000-7f9fe3b50000 r--p 00002000 08:02 268665351                  /usr/lib64/libkeyutils.so.1.5
+7f9fe3b50000-7f9fe3b51000 rw-p 00003000 08:02 268665351                  /usr/lib64/libkeyutils.so.1.5
+7f9fe3b51000-7f9fe3b5e000 r-xp 00000000 08:02 268665873                  /usr/lib64/libkrb5support.so.0.1
+7f9fe3b5e000-7f9fe3d5d000 ---p 0000d000 08:02 268665873                  /usr/lib64/libkrb5support.so.0.1
+7f9fe3d5d000-7f9fe3d5e000 r--p 0000c000 08:02 268665873                  /usr/lib64/libkrb5support.so.0.1
+7f9fe3d5e000-7f9fe3d5f000 rw-p 0000d000 08:02 268665873                  /usr/lib64/libkrb5support.so.0.1
+7f9fe3d5f000-7f9fe3d74000 r-xp 00000000 08:02 268665035                  /usr/lib64/libz.so.1.2.7
+7f9fe3d74000-7f9fe3f73000 ---p 00015000 08:02 268665035                  /usr/lib64/libz.so.1.2.7
+7f9fe3f73000-7f9fe3f74000 r--p 00014000 08:02 268665035                  /usr/lib64/libz.so.1.2.7
+7f9fe3f74000-7f9fe3f75000 rw-p 00015000 08:02 268665035                  /usr/lib64/libz.so.1.2.7
+7f9fe3f75000-7f9fe3fa6000 r-xp 00000000 08:02 268665812                  /usr/lib64/libk5crypto.so.3.1
+7f9fe3fa6000-7f9fe41a5000 ---p 00031000 08:02 268665812                  /usr/lib64/libk5crypto.so.3.1
+7f9fe41a5000-7f9fe41a7000 r--p 00030000 08:02 268665812                  /usr/lib64/libk5crypto.so.3.1
+7f9fe41a7000-7f9fe41a8000 rw-p 00032000 08:02 268665812                  /usr/lib64/libk5crypto.so.3.1
+7f9fe41a8000-7f9fe41ab000 r-xp 00000000 08:02 280855950                  /usr/lib64/libcom_err.so.2.1
+7f9fe41ab000-7f9fe43aa000 ---p 00003000 08:02 280855950                  /usr/lib64/libcom_err.so.2.1
+7f9fe43aa000-7f9fe43ab000 r--p 00002000 08:02 280855950                  /usr/lib64/libcom_err.so.2.1
+7f9fe43ab000-7f9fe43ac000 rw-p 00003000 08:02 280855950                  /usr/lib64/libcom_err.so.2.1
+7f9fe43ac000-7f9fe43f6000 r-xp 00000000 08:02 280855969                  /usr/lib64/libgssapi_krb5.so.2.2
+7f9fe43f6000-7f9fe45f6000 ---p 0004a000 08:02 280855969                  /usr/lib64/libgssapi_krb5.so.2.2
+7f9fe45f6000-7f9fe45f7000 r--p 0004a000 08:02 280855969                  /usr/lib64/libgssapi_krb5.so.2.2
+7f9fe45f7000-7f9fe45f9000 rw-p 0004b000 08:02 280855969                  /usr/lib64/libgssapi_krb5.so.2.2
+7f9fe45f9000-7f9fe4601000 r-xp 00000000 08:02 268664861                  /usr/lib64/libcrypt-2.17.so
+7f9fe4601000-7f9fe4800000 ---p 00008000 08:02 268664861                  /usr/lib64/libcrypt-2.17.so
+7f9fe4800000-7f9fe4801000 r--p 00007000 08:02 268664861                  /usr/lib64/libcrypt-2.17.so
+7f9fe4801000-7f9fe4802000 rw-p 00008000 08:02 268664861                  /usr/lib64/libcrypt-2.17.so
+7f9fe4802000-7f9fe4830000 rw-p 00000000 00:00 0 
+7f9fe4830000-7f9fe4846000 r-xp 00000000 08:02 285469929                  /usr/lib64/libresolv-2.17.so
+7f9fe4846000-7f9fe4a46000 ---p 00016000 08:02 285469929                  /usr/lib64/libresolv-2.17.so
+7f9fe4a46000-7f9fe4a47000 r--p 00016000 08:02 285469929                  /usr/lib64/libresolv-2.17.so
+7f9fe4a47000-7f9fe4a48000 rw-p 00017000 08:02 285469929                  /usr/lib64/libresolv-2.17.so
+7f9fe4a48000-7f9fe4a4a000 rw-p 00000000 00:00 0 
+7f9fe4a4a000-7f9fe4c01000 r-xp 00000000 08:02 268664856                  /usr/lib64/libc-2.17.so
+7f9fe4c01000-7f9fe4e00000 ---p 001b7000 08:02 268664856                  /usr/lib64/libc-2.17.so
+7f9fe4e00000-7f9fe4e04000 r--p 001b6000 08:02 268664856                  /usr/lib64/libc-2.17.so
+7f9fe4e04000-7f9fe4e06000 rw-p 001ba000 08:02 268664856                  /usr/lib64/libc-2.17.so
+7f9fe4e06000-7f9fe4e0b000 rw-p 00000000 00:00 0 
+7f9fe4e0b000-7f9fe4e22000 r-xp 00000000 08:02 285469927                  /usr/lib64/libpthread-2.17.so
+7f9fe4e22000-7f9fe5021000 ---p 00017000 08:02 285469927                  /usr/lib64/libpthread-2.17.so
+7f9fe5021000-7f9fe5022000 r--p 00016000 08:02 285469927                  /usr/lib64/libpthread-2.17.so
+7f9fe5022000-7f9fe5023000 rw-p 00017000 08:02 285469927                  /usr/lib64/libpthread-2.17.so
+7f9fe5023000-7f9fe5027000 rw-p 00000000 00:00 0 
+7f9fe5027000-7f9fe503d000 r-xp 00000000 08:10 47191258                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libgcc_s.so.1
+7f9fe503d000-7f9fe523c000 ---p 00016000 08:10 47191258                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libgcc_s.so.1
+7f9fe523c000-7f9fe523d000 r--p 00015000 08:10 47191258                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libgcc_s.so.1
+7f9fe523d000-7f9fe523e000 rw-p 00016000 08:10 47191258                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libgcc_s.so.1
+7f9fe523e000-7f9fe533e000 r-xp 00000000 08:02 268664867                  /usr/lib64/libm-2.17.so
+7f9fe533e000-7f9fe553e000 ---p 00100000 08:02 268664867                  /usr/lib64/libm-2.17.so
+7f9fe553e000-7f9fe553f000 r--p 00100000 08:02 268664867                  /usr/lib64/libm-2.17.so
+7f9fe553f000-7f9fe5540000 rw-p 00101000 08:02 268664867                  /usr/lib64/libm-2.17.so
+7f9fe5540000-7f9fe562b000 r-xp 00000000 08:10 47191293                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libstdc++.so.6
+7f9fe562b000-7f9fe582b000 ---p 000eb000 08:10 47191293                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libstdc++.so.6
+7f9fe582b000-7f9fe5833000 r--p 000eb000 08:10 47191293                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libstdc++.so.6
+7f9fe5833000-7f9fe5835000 rw-p 000f3000 08:10 47191293                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/gcc-4.9.2/lib64/libstdc++.so.6
+7f9fe5835000-7f9fe584a000 rw-p 00000000 00:00 0 
+7f9fe584a000-7f9fe584c000 r-xp 00000000 08:02 268664863                  /usr/lib64/libdl-2.17.so
+7f9fe584c000-7f9fe5a4c000 ---p 00002000 08:02 268664863                  /usr/lib64/libdl-2.17.so
+7f9fe5a4c000-7f9fe5a4d000 r--p 00002000 08:02 268664863                  /usr/lib64/libdl-2.17.so
+7f9fe5a4d000-7f9fe5a4e000 rw-p 00003000 08:02 268664863                  /usr/lib64/libdl-2.17.so
+7f9fe5a4e000-7f9fe5a55000 r-xp 00000000 08:02 285469931                  /usr/lib64/librt-2.17.so
+7f9fe5a55000-7f9fe5c54000 ---p 00007000 08:02 285469931                  /usr/lib64/librt-2.17.so
+7f9fe5c54000-7f9fe5c55000 r--p 00006000 08:02 285469931                  /usr/lib64/librt-2.17.so
+7f9fe5c55000-7f9fe5c56000 rw-p 00007000 08:02 285469931                  /usr/lib64/librt-2.17.so
+7f9fe5c56000-7f9fe6224000 r-xp 00000000 08:10 47192668                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/kudu-1520b39/release/lib64/libkudu_client.so.0
+7f9fe6224000-7f9fe6423000 ---p 005ce000 08:10 47192668                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/kudu-1520b39/release/lib64/libkudu_client.so.0
+7f9fe6423000-7f9fe643f000 rw-p 005cd000 08:10 47192668                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/toolchain/kudu-1520b39/release/lib64/libkudu_client.so.0
+7f9fe643f000-7f9fe6467000 rw-p 00000000 00:00 0 
+7f9fe6467000-7f9fe7140000 r-xp 00000000 08:02 278648192                  /root/software/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+7f9fe7140000-7f9fe733f000 ---p 00cd9000 08:02 278648192                  /root/software/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+7f9fe733f000-7f9fe7419000 rw-p 00cd8000 08:02 278648192                  /root/software/jdk1.8.0_171/jre/lib/amd64/server/libjvm.so
+7f9fe7419000-7f9fe7464000 rw-p 00000000 00:00 0 
+7f9fe7464000-7f9fe753c000 r-xp 00000000 08:02 268665865                  /usr/lib64/libkrb5.so.3.3
+7f9fe753c000-7f9fe773b000 ---p 000d8000 08:02 268665865                  /usr/lib64/libkrb5.so.3.3
+7f9fe773b000-7f9fe7749000 r--p 000d7000 08:02 268665865                  /usr/lib64/libkrb5.so.3.3
+7f9fe7749000-7f9fe774c000 rw-p 000e5000 08:02 268665865                  /usr/lib64/libkrb5.so.3.3
+7f9fe774c000-7f9fe7980000 r-xp 00000000 08:02 268665032                  /usr/lib64/libcrypto.so.1.0.2k
+7f9fe7980000-7f9fe7b80000 ---p 00234000 08:02 268665032                  /usr/lib64/libcrypto.so.1.0.2k
+7f9fe7b80000-7f9fe7b9c000 r--p 00234000 08:02 268665032                  /usr/lib64/libcrypto.so.1.0.2k
+7f9fe7b9c000-7f9fe7ba9000 rw-p 00250000 08:02 268665032                  /usr/lib64/libcrypto.so.1.0.2k
+7f9fe7ba9000-7f9fe7bad000 rw-p 00000000 00:00 0 
+7f9fe7bad000-7f9fe7c14000 r-xp 00000000 08:02 268665040                  /usr/lib64/libssl.so.1.0.2k
+7f9fe7c14000-7f9fe7e14000 ---p 00067000 08:02 268665040                  /usr/lib64/libssl.so.1.0.2k
+7f9fe7e14000-7f9fe7e18000 r--p 00067000 08:02 268665040                  /usr/lib64/libssl.so.1.0.2k
+7f9fe7e18000-7f9fe7e1f000 rw-p 0006b000 08:02 268665040                  /usr/lib64/libssl.so.1.0.2k
+7f9fe7e1f000-7f9fe7e3b000 r-xp 00000000 08:02 280855954                  /usr/lib64/libsasl2.so.3.0.0
+7f9fe7e3b000-7f9fe803a000 ---p 0001c000 08:02 280855954                  /usr/lib64/libsasl2.so.3.0.0
+7f9fe803a000-7f9fe803b000 r--p 0001b000 08:02 280855954                  /usr/lib64/libsasl2.so.3.0.0
+7f9fe803b000-7f9fe803c000 rw-p 0001c000 08:02 280855954                  /usr/lib64/libsasl2.so.3.0.0
+7f9fe803c000-7f9fe803e000 r-xp 00000000 08:02 4607945                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjsig.so
+7f9fe803e000-7f9fe823d000 ---p 00002000 08:02 4607945                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjsig.so
+7f9fe823d000-7f9fe823e000 rw-p 00001000 08:02 4607945                    /root/software/jdk1.8.0_171/jre/lib/amd64/libjsig.so
+7f9fe823e000-7f9fe823f000 rw-p 00000000 00:00 0 
+7f9fe823f000-7f9fe825f000 r-xp 00000000 08:02 268664848                  /usr/lib64/ld-2.17.so
+7f9fe825f000-7f9fe826c000 r--s 00083000 08:10 46143694                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-collections-3.2.2.jar
+7f9fe826c000-7f9fe8273000 r--s 0003a000 08:10 46143623                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-codec-1.9.jar
+7f9fe8273000-7f9fe8275000 r--s 00009000 08:10 46143488                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-cli-1.2.jar
+7f9fe8275000-7f9fe8279000 r--s 0002f000 08:10 46143672                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-beanutils-core-1.8.0.jar
+7f9fe8279000-7f9fe827e000 r--s 00034000 08:10 46143466                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/commons-beanutils-1.8.3.jar
+7f9fe827e000-7f9fe8288000 r--s 00060000 08:10 46143597                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/calcite-linq4j-1.0.0-incubating.jar
+7f9fe8288000-7f9fe82bd000 r--s 002f0000 08:10 46143580                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/calcite-core-1.0.0-incubating.jar
+7f9fe82bd000-7f9fe82c3000 r--s 0002f000 08:10 46143538                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/calcite-avatica-1.0.0-incubating.jar
+7f9fe82c3000-7f9fe82c5000 r--s 0001b000 08:10 46143609                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/bonecp-0.7.1.RELEASE.jar
+7f9fe82c5000-7f9fe82c7000 r--s 00014000 08:10 46143506                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/azure-data-lake-store-sdk-2.2.3.jar
+7f9fe82c7000-7f9fe82d0000 r--s 0006c000 08:10 46143584                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/avro-1.7.6-cdh5.14.0.jar
+7f9fe82d0000-7f9fe82d1000 r--s 00004000 08:10 46143487                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/audience-annotations-0.4.0.jar
+7f9fe82d1000-7f9fe82d3000 r--s 00003000 08:10 46143656                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/async-1.3.1.jar
+7f9fe82d3000-7f9fe82d5000 r--s 00004000 08:10 46143662                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/asm-tree-3.1.jar
+7f9fe82d5000-7f9fe82d6000 r--s 00007000 08:10 46143627                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/asm-commons-3.1.jar
+7f9fe82d6000-7f9fe82d7000 r--s 0000a000 08:10 46143519                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/asm-3.1.jar
+7f9fe82d7000-7f9fe82d9000 r--s 00012000 08:10 46143527                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/api-util-1.0.0-M20.jar
+7f9fe82d9000-7f9fe82db000 r--s 00003000 08:10 46143525                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/api-asn1-api-1.0.0-M20.jar
+7f9fe82db000-7f9fe82e3000 r--s 00066000 08:10 46143664                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/apache-log4j-extras-1.2.17.jar
+7f9fe82e3000-7f9fe82f5000 r--s 00097000 08:10 46143676                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/apacheds-kerberos-codec-2.0.0-M15.jar
+7f9fe82f5000-7f9fe82f8000 r--s 00017000 08:10 46143688                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/apacheds-jdbm1-2.0.0-M2.jar
+7f9fe82f8000-7f9fe82f9000 r--s 0000a000 08:10 46143556                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/apacheds-i18n-2.0.0-M15.jar
+7f9fe82f9000-7f9fe82fb000 r--s 00000000 08:10 46143547                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/aopalliance-1.0.jar
+7f9fe82fb000-7f9fe82fe000 r--s 00025000 08:10 46143667                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/antlr-runtime-3.3.jar
+7f9fe82fe000-7f9fe8303000 r--s 00068000 08:10 46143671                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/antlr-2.7.7.jar
+7f9fe8303000-7f9fe8304000 r--s 00004000 08:10 46143568                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/ant-launcher-1.9.1.jar
+7f9fe8304000-7f9fe8309000 r--s 00032000 08:10 46143490                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/ant-contrib-1.0b3.jar
+7f9fe8309000-7f9fe8327000 r--s 001ca000 08:10 46143639                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/ant-1.9.1.jar
+7f9fe8327000-7f9fe8332000 r--s 000a4000 08:10 46143491                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/ant-1.5.jar
+7f9fe8332000-7f9fe8334000 r--s 0000e000 08:10 46143540                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/fe/target/dependency/activation-1.1.jar
+7f9fe8334000-7f9fe833e000 r--s 000eb000 08:10 46274116                   /data/jun.zhang/impala-2.11.0-cdh5.14.0/thirdparty/hive-1.1.0-cdh5.14.0/lib/mysql-connector-java-5.1.45-bin.jar
+7f9fe833e000-7f9fe833f000 rw-p 00000000 00:00 0 
+7f9fe833f000-7f9fe8340000 ---p 00000000 00:00 0 
+7f9fe8340000-7f9fe8450000 rw-p 00000000 00:00 0 
+7f9fe8450000-7f9fe8458000 rw-s 00000000 08:02 4730187                    /tmp/hsperfdata_root/48468
+7f9fe8458000-7f9fe8459000 rw-p 00000000 00:00 0 
+7f9fe8459000-7f9fe845a000 r--p 00000000 00:00 0 
+7f9fe845a000-7f9fe845f000 rw-p 00000000 00:00 0 
+7f9fe845f000-7f9fe8460000 r--p 00020000 08:02 268664848                  /usr/lib64/ld-2.17.so
+7f9fe8460000-7f9fe8461000 rw-p 00021000 08:02 268664848                  /usr/lib64/ld-2.17.so
+7f9fe8461000-7f9fe8462000 rw-p 00000000 00:00 0 
+7fffaa92b000-7fffaa92e000 ---p 00000000 00:00 0 
+7fffaa92e000-7fffaaa2b000 rw-p 00000000 00:00 0                          [stack]
+7fffaab47000-7fffaab4a000 r--p 00000000 00:00 0                          [vvar]
+7fffaab4a000-7fffaab4c000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -agentlib:jdwp=transport=dt_socket,address=10000,server=y,suspend=n -Djava.library.path=/data/jun.zhang/impala/thirdparty/hadoop-2.6.0-cdh5.14.0//lib/native/ -XX:MaxPermSize=128m 
+java_command: <unknown>
+java_class_path (initial): /data/jun.zhang/impala/conf:/data/jun.zhang/impala/fe/src/test/resources:/data/jun.zhang/impala/fe/target/classes:/data/jun.zhang/impala/fe/target/dependency:/data/jun.zhang/impala/fe/target/test-classes:/data/jun.zhang/impala/thirdparty/hive-1.1.0-cdh5.14.0//lib/datanucleus-api-jdo-3.2.1.jar:/data/jun.zhang/impala/thirdparty/hive-1.1.0-cdh5.14.0//lib/mysql-connector-java-5.1.45-bin.jar:/data/jun.zhang/impala/thirdparty/hive-1.1.0-cdh5.14.0//lib/datanucleus-core-3.2.2.jar:/data/jun.zhang/impala/thirdparty/hive-1.1.0-cdh5.14.0//lib/datanucleus-rdbms-3.2.1.jar::/data/jun.zhang/impala/fe/target/dependency/activation-1.1.jar:/data/jun.zhang/impala/fe/target/dependency/ant-1.5.jar:/data/jun.zhang/impala/fe/target/dependency/ant-1.9.1.jar:/data/jun.zhang/impala/fe/target/dependency/ant-contrib-1.0b3.jar:/data/jun.zhang/impala/fe/target/dependency/ant-launcher-1.9.1.jar:/data/jun.zhang/impala/fe/target/dependency/antlr-2.7.7.jar:/data/jun.zhang/impala/fe/target/dependency/antlr-runtime-3.3.jar:/data/jun.zhang/impala/fe/target/dependency/aopalliance-1.0.jar:/data/jun.zhang/impala/fe/target/dependency/apacheds-i18n-2.0.0-M15.jar:/data/jun.zhang/impala/fe/target/dependency/apacheds-jdbm1-2.0.0-M2.jar:/data/jun.zhang/impala/fe/target/dependency/apacheds-kerberos-codec-2.0.0-M15.jar:/data/jun.zhang/impala/fe/target/dependency/apache-log4j-extras-1.2.17.jar:/data/jun.zhang/impala/fe/target/dependency/api-asn1-api-1.0.0-M20.jar:/data/jun.zhang/impala/fe/target/dependency/api-util-1.0.0-M20.jar:/data/jun.zhang/impala/fe/target/dependency/asm-3.1.jar:/data/jun.zhang/impala/fe/target/dependency/asm-commons-3.1.jar:/data/jun.zhang/impala/fe/target/dependency/asm-tree-3.1.jar:/data/jun.zhang/impala/fe/target/dependency/async-1.3.1.jar:/data/jun.zhang/impala/fe/target/dependency/audience-annotations-0.4.0.jar:/data/jun.zhang/impala/fe/target/dependency/avro-1.7.6-cdh5.14.0.jar:/data/jun.zhang/impala/fe/target/dependency/aws-java-sdk-bundle-1.11.134.jar:/dat
+Launcher Type: generic
+
+Environment Variables:
+JAVA_HOME=/root/software/java
+JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=10000,server=y,suspend=n 
+PATH=/data/jun.zhang/impala/toolchain/llvm-3.9.1/bin:/data/jun.zhang/impala/thirdparty/hbase-1.2.0-cdh5.14.0//bin:/data/jun.zhang/impala/thirdparty/hive-1.1.0-cdh5.14.0//bin:/data/jun.zhang/impala/thirdparty/hadoop-2.6.0-cdh5.14.0//bin:/data/jun.zhang/impala/bin:/data/jun.zhang/impala/toolchain/cmake-3.8.2-p1/bin/:/data/jun.zhang/impala/thirdparty/hadoop/sbin:/data/jun.zhang/impala/thirdparty/hadoop/bin:/root/software/java/bin:/root/software/maven/bin/:/data/jun.zhang/impala/thirdparty/hive/bin:/usr/lib64/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/dell/srvadmin/bin:/opt/dell/srvadmin/sbin:/root/bin
+LD_LIBRARY_PATH=:/root/software/java/jre/lib/amd64:/root/software/java/jre/lib/amd64:/root/software/java/jre/lib/amd64/server:/data/jun.zhang/impala/thirdparty/hadoop-2.6.0-cdh5.14.0//lib/native:/data/jun.zhang/impala/toolchain/snappy-1.1.4/lib:/data/jun.zhang/impala/../Impala-lzo/build:/data/jun.zhang/impala/toolchain/gcc-4.9.2/lib64
+LD_PRELOAD=:/root/software/java/jre/lib/amd64/libjsig.so
+SHELL=/bin/bash
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0xad0890], sa_mask[0]=11111111111111111111111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0xad0890], sa_mask[0]=11111111111111111111111111111110, sa_flags=SA_ONSTACK|SA_SIGINFO
+SIGFPE: [impalad+0x1cd33a0], sa_mask[0]=00011111001000000000000000000000, sa_flags=SA_ONSTACK|SA_SIGINFO
+SIGPIPE: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGXFSZ: SIG_DFL, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGILL: [impalad+0x1cd33a0], sa_mask[0]=00011111001000000000000000000000, sa_flags=SA_ONSTACK|SA_SIGINFO
+SIGUSR1: [impalad+0x8c68d0], sa_mask[0]=00000000000000000000000000000000, sa_flags=none
+SIGUSR2: [libjvm.so+0x929ea0], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x92b2a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.so+0x92b2a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.so+0x92b2a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x92b2a0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:CentOS Linux release 7.3.1611 (Core) 
+
+uname:Linux 4.14.3-1.el7.elrepo.x86_64 #1 SMP Thu Nov 30 09:35:20 EST 2017 x86_64
+libc:glibc 2.17 NPTL 2.17 
+rlimit: STACK 8192k, CORE 0k, NPROC 515478, NOFILE 4096, AS infinity
+load average:0.29 0.19 0.12
+
+/proc/meminfo:
+MemTotal:       131983688 kB
+MemFree:        49237448 kB
+MemAvailable:   120277176 kB
+Buffers:          175060 kB
+Cached:         70457612 kB
+SwapCached:            0 kB
+Active:         73147132 kB
+Inactive:        5840444 kB
+Active(anon):    9412076 kB
+Inactive(anon):   370276 kB
+Active(file):   63735056 kB
+Inactive(file):  5470168 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:            250516 kB
+Writeback:             0 kB
+AnonPages:       8274576 kB
+Mapped:           401824 kB
+Shmem:           1427448 kB
+Slab:            3307412 kB
+SReclaimable:    2894204 kB
+SUnreclaim:       413208 kB
+KernelStack:       43584 kB
+PageTables:        46636 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    65991844 kB
+Committed_AS:   31395540 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:   7124992 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:     1033152 kB
+DirectMap2M:    78612480 kB
+DirectMap1G:    56623104 kB
+
+
+CPU:total 32 (initial active 32) (8 cores per cpu, 2 threads per core) family 6 model 62 stepping 4, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, ht, tsc, tscinvbit
+
+/proc/cpuinfo:
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 32
+initial apicid	: 32
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 1
+cpu cores	: 8
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 1
+cpu cores	: 8
+apicid		: 34
+initial apicid	: 34
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 2
+cpu cores	: 8
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 2
+cpu cores	: 8
+apicid		: 36
+initial apicid	: 36
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 3
+cpu cores	: 8
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 3
+cpu cores	: 8
+apicid		: 38
+initial apicid	: 38
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 8
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 4
+cpu cores	: 8
+apicid		: 8
+initial apicid	: 8
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 9
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 4
+cpu cores	: 8
+apicid		: 40
+initial apicid	: 40
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 10
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 5
+cpu cores	: 8
+apicid		: 10
+initial apicid	: 10
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 11
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 5
+cpu cores	: 8
+apicid		: 42
+initial apicid	: 42
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 12
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 6
+cpu cores	: 8
+apicid		: 12
+initial apicid	: 12
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 13
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 6
+cpu cores	: 8
+apicid		: 44
+initial apicid	: 44
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 14
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 7
+cpu cores	: 8
+apicid		: 14
+initial apicid	: 14
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 15
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 7
+cpu cores	: 8
+apicid		: 46
+initial apicid	: 46
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 16
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 17
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 0
+cpu cores	: 8
+apicid		: 33
+initial apicid	: 33
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 18
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 1
+cpu cores	: 8
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 19
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 1
+cpu cores	: 8
+apicid		: 35
+initial apicid	: 35
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 20
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 2
+cpu cores	: 8
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 21
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 2
+cpu cores	: 8
+apicid		: 37
+initial apicid	: 37
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 22
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 3
+cpu cores	: 8
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 23
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 3
+cpu cores	: 8
+apicid		: 39
+initial apicid	: 39
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 24
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 4
+cpu cores	: 8
+apicid		: 9
+initial apicid	: 9
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 25
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 4
+cpu cores	: 8
+apicid		: 41
+initial apicid	: 41
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 26
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 5
+cpu cores	: 8
+apicid		: 11
+initial apicid	: 11
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 27
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 5
+cpu cores	: 8
+apicid		: 43
+initial apicid	: 43
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 28
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 6
+cpu cores	: 8
+apicid		: 13
+initial apicid	: 13
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 29
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 6
+cpu cores	: 8
+apicid		: 45
+initial apicid	: 45
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 30
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 0
+siblings	: 16
+core id		: 7
+cpu cores	: 8
+apicid		: 15
+initial apicid	: 15
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4000.30
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+processor	: 31
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 62
+model name	: Intel(R) Xeon(R) CPU E5-2640 v2 @ 2.00GHz
+stepping	: 4
+microcode	: 0x428
+cpu MHz		: 2000.151
+cache size	: 20480 KB
+physical id	: 1
+siblings	: 16
+core id		: 7
+cpu cores	: 8
+apicid		: 47
+initial apicid	: 47
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault tpr_shadow vnmi flexpriority ept vpid fsgsbase smep erms xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 4005.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+
+
+
+Memory: 4k page, physical 131983688k(49237448k free), swap 0k(0k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.171-b11) for linux-amd64 JRE (1.8.0_171-b11), built on Mar 28 2018 17:07:08 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
+
+time: Thu May 31 10:15:23 2018
+elapsed time: 37 seconds (0d 0h 0m 37s)
+

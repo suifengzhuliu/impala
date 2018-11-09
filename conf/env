@@ -1,0 +1,5 @@
+export IMPALA_HOME=/data/jun.zhang/impala
+export IMPALA_CONF_DIR=$IMPALA_HOME/conf
+export CLUSTER_DIR=$IMPALA_HOME/testdata/cluster
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$IMPALA_HOME/so/:$HADOOP_HOME/lib/native:$JAVA_HOME/jre/lib/amd64/server
+export PATH=$IMPALA_HOME/bin:$PATH

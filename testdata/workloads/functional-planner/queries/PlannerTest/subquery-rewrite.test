@@ -1,0 +1,2116 @@
+# IN predicate
+select *
+from functional.alltypes
+where id in
+  (select id from functional.alltypesagg)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id
+|  runtime filters: RF000 <- id
+|
+|--01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|
+00:SCAN HDFS [functional.alltypes]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> id
+====
+# NOT IN predicate rewritten into a null-aware anti join
+select *
+from functional.alltypes
+where id not in
+  (select id from functional.alltypesagg)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [NULL AWARE LEFT ANTI JOIN]
+|  hash predicates: id = id
+|
+|--01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|
+00:SCAN HDFS [functional.alltypes]
+   partitions=24/24 files=24 size=478.45KB
+====
+# Correlated NOT IN rewritten into a null-aware anti join
+select *
+from functional.alltypes a
+where a.int_col not in
+  (select int_col
+   from functional.alltypesagg g
+   where g.id = a.id and g.bigint_col < a.bigint_col)
+and a.int_col < 100
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [NULL AWARE LEFT ANTI JOIN]
+|  hash predicates: a.int_col = int_col
+|  other join predicates: a.id = g.id, g.bigint_col < a.bigint_col
+|
+|--01:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: a.int_col < 100
+====
+# Correlated NOT IN subquery resulting in the same eq conjunct
+# being used in both the hash and the other join predicate
+select *
+from functional.alltypes a
+where a.id not in (select id from functional.alltypes b where a.id = b.id)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [NULL AWARE LEFT ANTI JOIN]
+|  hash predicates: a.id = id
+|  other join predicates: a.id = b.id
+|
+|--01:SCAN HDFS [functional.alltypes b]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+====
+# Subquery with predicate in the WHERE clause
+select count(*)
+from functional.alltypes a
+where int_col in
+  (select int_col from functional.alltypesagg g where a.id = g.id and g.bigint_col < 10)
+and bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+03:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.id = g.id, int_col = int_col
+|  runtime filters: RF000 <- g.id, RF001 <- int_col
+|
+|--01:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: g.bigint_col < 10
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: bool_col = FALSE
+   runtime filters: RF000 -> a.id, RF001 -> int_col
+====
+# IMPALA-4325: Preserve parenthesis of expressions when rewriting subqueries
+select *
+from functional.alltypes t1
+where t1.int_col in
+  (select t2.int_col
+   from functional.alltypes t2
+   where (t2.int_col is not null and (t2.int_col < 0 or t2.int_col > 10)
+   or t2.bigint_col is not null and (t2.bigint_col < 0 or t2.bigint_col > 10)))
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.int_col = t2.int_col
+|  runtime filters: RF000 <- t2.int_col
+|
+|--01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: (t2.int_col IS NOT NULL AND (t2.int_col < 0 OR t2.int_col > 10) OR t2.bigint_col IS NOT NULL AND (t2.bigint_col < 0 OR t2.bigint_col > 10))
+|
+00:SCAN HDFS [functional.alltypes t1]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> t1.int_col
+====
+# Complex expression in the IN predicate
+select *
+from functional.alltypes t
+where t.int_col + 1 in
+  (select int_col + bigint_col from functional.alltypesagg)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.int_col + 1 = int_col + bigint_col
+|  runtime filters: RF000 <- int_col + bigint_col
+|
+|--01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> t.int_col + 1
+====
+# Multiple subqueries in the WHERE clause
+select *
+from functional.alltypes t
+where t.id in
+  (select id from functional.alltypesagg where bool_col = false)
+and t.tinyint_col not in (select tinyint_col from functional.alltypestiny)
+and t.bigint_col < 1000
+---- PLAN
+PLAN-ROOT SINK
+|
+04:HASH JOIN [NULL AWARE LEFT ANTI JOIN]
+|  hash predicates: t.tinyint_col = tinyint_col
+|
+|--02:SCAN HDFS [functional.alltypestiny]
+|     partitions=4/4 files=4 size=460B
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.id = id
+|  runtime filters: RF000 <- id
+|
+|--01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: t.bigint_col < 1000
+   runtime filters: RF000 -> t.id
+====
+# Multiple tables in the FROM clause of the outer query block
+select count(*)
+from functional.alltypesagg a, functional.alltypes t
+where a.id = t.id and a.int_col in
+  (select int_col from functional.alltypestiny where bool_col = false)
+---- PLAN
+PLAN-ROOT SINK
+|
+05:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.int_col = int_col
+|  runtime filters: RF000 <- int_col
+|
+|--02:SCAN HDFS [functional.alltypestiny]
+|     partitions=4/4 files=4 size=460B
+|     predicates: bool_col = FALSE
+|
+03:HASH JOIN [INNER JOIN]
+|  hash predicates: a.id = t.id
+|  runtime filters: RF002 <- t.id
+|
+|--01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> a.int_col, RF002 -> a.id
+====
+# Multiple tables in the subquery
+select count(*)
+from functional.alltypesagg a
+where a.id in
+  (select s.id
+   from functional.alltypessmall s, functional.alltypestiny t
+   where s.int_col = t.int_col and a.bool_col = s.bool_col)
+and a.int_col < 10
+---- PLAN
+PLAN-ROOT SINK
+|
+05:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.bool_col = s.bool_col, a.id = s.id
+|  runtime filters: RF000 <- s.bool_col, RF001 <- s.id
+|
+|--03:HASH JOIN [INNER JOIN]
+|  |  hash predicates: s.int_col = t.int_col
+|  |  runtime filters: RF004 <- t.int_col
+|  |
+|  |--02:SCAN HDFS [functional.alltypestiny t]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  01:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     runtime filters: RF004 -> s.int_col
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: a.int_col < 10
+   runtime filters: RF000 -> a.bool_col, RF001 -> a.id
+====
+# Outer join between the tables in the outer query block
+select count(*)
+from functional.alltypesagg a left outer join functional.alltypes t
+on a.int_col = t.int_col
+where a.id in
+  (select id from functional.alltypestiny)
+and t.bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+05:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.id = id
+|  runtime filters: RF000 <- id
+|
+|--02:SCAN HDFS [functional.alltypestiny]
+|     partitions=4/4 files=4 size=460B
+|
+03:HASH JOIN [LEFT OUTER JOIN]
+|  hash predicates: a.int_col = t.int_col
+|  other predicates: t.bool_col = FALSE
+|
+|--01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: t.bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> a.id
+====
+# Subquery in the outer-joined table
+select count(*)
+from functional.alltypes a left outer join
+(select * from functional.alltypesagg g where id in
+  (select id from functional.alltypestiny)) t
+on a.int_col = t.int_col
+where a.bool_col = false and t.bigint_col < 100
+---- PLAN
+PLAN-ROOT SINK
+|
+05:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+04:HASH JOIN [LEFT OUTER JOIN]
+|  hash predicates: a.int_col = g.int_col
+|  other predicates: g.bigint_col < 100
+|
+|--03:HASH JOIN [LEFT SEMI JOIN]
+|  |  hash predicates: id = id
+|  |  runtime filters: RF000 <- id
+|  |
+|  |--02:SCAN HDFS [functional.alltypestiny]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  01:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: g.bigint_col < 100
+|     runtime filters: RF000 -> id
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: a.bool_col = FALSE
+====
+# Multiple tables in the FROM clause of the subquery
+select count(distinct id)
+from functional.alltypesagg a
+where a.int_col in
+  (select t.int_col
+   from functional.alltypes t, functional.alltypessmall s, functional.alltypestiny n
+   where t.id = s.id and s.bigint_col = n.bigint_col and n.bool_col = false)
+---- PLAN
+PLAN-ROOT SINK
+|
+08:AGGREGATE [FINALIZE]
+|  output: count(id)
+|
+07:AGGREGATE
+|  group by: id
+|
+06:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.int_col = t.int_col
+|  runtime filters: RF000 <- t.int_col
+|
+|--05:HASH JOIN [INNER JOIN]
+|  |  hash predicates: s.bigint_col = n.bigint_col
+|  |  runtime filters: RF002 <- n.bigint_col
+|  |
+|  |--03:SCAN HDFS [functional.alltypestiny n]
+|  |     partitions=4/4 files=4 size=460B
+|  |     predicates: n.bool_col = FALSE
+|  |
+|  04:HASH JOIN [INNER JOIN]
+|  |  hash predicates: t.id = s.id
+|  |  runtime filters: RF004 <- s.id
+|  |
+|  |--02:SCAN HDFS [functional.alltypessmall s]
+|  |     partitions=4/4 files=4 size=6.32KB
+|  |     runtime filters: RF002 -> s.bigint_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|     runtime filters: RF004 -> t.id
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> a.int_col
+====
+# Subqueries with inline views
+select *
+from functional.alltypes t
+where t.id in
+  (select a.id from functional.alltypestiny a,
+   (select id, count(*) as cnt from functional.alltypessmall group by id) s
+   where s.id = a.id and s.cnt = 10)
+---- PLAN
+PLAN-ROOT SINK
+|
+05:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.id = a.id
+|  runtime filters: RF000 <- a.id
+|
+|--04:HASH JOIN [INNER JOIN]
+|  |  hash predicates: id = a.id
+|  |  runtime filters: RF002 <- a.id
+|  |
+|  |--01:SCAN HDFS [functional.alltypestiny a]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  03:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |  group by: id
+|  |  having: count(*) = 10
+|  |
+|  02:SCAN HDFS [functional.alltypessmall]
+|     partitions=4/4 files=4 size=6.32KB
+|     runtime filters: RF002 -> functional.alltypessmall.id
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> t.id
+====
+with t as (select a.* from functional.alltypes a where id in
+  (select id from functional.alltypestiny))
+select * from t where t.bool_col = false and t.int_col = 10
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id
+|  runtime filters: RF000 <- id
+|
+|--01:SCAN HDFS [functional.alltypestiny]
+|     partitions=4/4 files=4 size=460B
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: a.int_col = 10, a.bool_col = FALSE
+   runtime filters: RF000 -> id
+====
+# Subqueries in WITH, FROM and WHERE clauses
+with t as (select a.* from functional.alltypes a
+  where id in (select id from functional.alltypestiny))
+select t.*
+from t, (select * from functional.alltypesagg g where g.id in
+  (select id from functional.alltypes)) s
+where s.string_col = t.string_col and t.int_col in
+  (select int_col from functional.alltypessmall)
+and s.bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+08:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.int_col = int_col
+|  runtime filters: RF000 <- int_col
+|
+|--06:SCAN HDFS [functional.alltypessmall]
+|     partitions=4/4 files=4 size=6.32KB
+|
+07:HASH JOIN [INNER JOIN]
+|  hash predicates: g.string_col = a.string_col
+|  runtime filters: RF002 <- a.string_col
+|
+|--02:HASH JOIN [LEFT SEMI JOIN]
+|  |  hash predicates: id = id
+|  |  runtime filters: RF006 <- id
+|  |
+|  |--01:SCAN HDFS [functional.alltypestiny]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  00:SCAN HDFS [functional.alltypes a]
+|     partitions=24/24 files=24 size=478.45KB
+|     runtime filters: RF000 -> a.int_col, RF006 -> id
+|
+05:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: g.id = id
+|  runtime filters: RF004 <- id
+|
+|--04:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|
+03:SCAN HDFS [functional.alltypesagg g]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: g.bool_col = FALSE
+   runtime filters: RF002 -> g.string_col, RF004 -> g.id
+====
+# Correlated subqueries
+select *
+from functional.alltypes t
+where id in
+  (select id from functional.alltypesagg a where t.int_col = a.int_col)
+and t.bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id, t.int_col = a.int_col
+|  runtime filters: RF000 <- id, RF001 <- a.int_col
+|
+|--01:SCAN HDFS [functional.alltypesagg a]
+|     partitions=11/11 files=11 size=814.73KB
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: t.bool_col = FALSE
+   runtime filters: RF000 -> id, RF001 -> t.int_col
+====
+# Multiple nesting levels (uncorrelated queries)
+select *
+from functional.alltypes t
+where id in
+  (select id from functional.alltypesagg where int_col in
+    (select int_col from functional.alltypestiny)
+   and bool_col = false)
+and bigint_col < 1000
+---- PLAN
+PLAN-ROOT SINK
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id
+|  runtime filters: RF000 <- id
+|
+|--03:HASH JOIN [LEFT SEMI JOIN]
+|  |  hash predicates: int_col = int_col
+|  |  runtime filters: RF002 <- int_col
+|  |
+|  |--02:SCAN HDFS [functional.alltypestiny]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: bool_col = FALSE
+|     runtime filters: RF002 -> int_col
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: bigint_col < 1000
+   runtime filters: RF000 -> id
+====
+# Multiple nesting levels (correlated queries)
+select *
+from functional.alltypes t
+where id in
+  (select id from functional.alltypesagg a where a.int_col = t.int_col
+   and a.tinyint_col in
+    (select tinyint_col from functional.alltypestiny s
+     where s.bigint_col = a.bigint_col))
+---- PLAN
+PLAN-ROOT SINK
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id, t.int_col = a.int_col
+|  runtime filters: RF000 <- id, RF001 <- a.int_col
+|
+|--03:HASH JOIN [LEFT SEMI JOIN]
+|  |  hash predicates: a.bigint_col = s.bigint_col, a.tinyint_col = tinyint_col
+|  |  runtime filters: RF004 <- s.bigint_col, RF005 <- tinyint_col
+|  |
+|  |--02:SCAN HDFS [functional.alltypestiny s]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  01:SCAN HDFS [functional.alltypesagg a]
+|     partitions=11/11 files=11 size=814.73KB
+|     runtime filters: RF004 -> a.bigint_col, RF005 -> a.tinyint_col
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> id, RF001 -> t.int_col
+====
+# Multiple nesting levels (correlated and uncorrelated queries)
+select *
+from functional.alltypes t
+where id in
+  (select id from functional.alltypesagg a where a.int_col in
+    (select int_col from functional.alltypestiny s where a.bigint_col = s.bigint_col))
+---- PLAN
+PLAN-ROOT SINK
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id
+|  runtime filters: RF000 <- id
+|
+|--03:HASH JOIN [LEFT SEMI JOIN]
+|  |  hash predicates: a.bigint_col = s.bigint_col, a.int_col = int_col
+|  |  runtime filters: RF002 <- s.bigint_col, RF003 <- int_col
+|  |
+|  |--02:SCAN HDFS [functional.alltypestiny s]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  01:SCAN HDFS [functional.alltypesagg a]
+|     partitions=11/11 files=11 size=814.73KB
+|     runtime filters: RF002 -> a.bigint_col, RF003 -> a.int_col
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> id
+====
+# Predicate propagation with uncorrelated subqueries
+select *
+from functional.alltypes
+where id in
+  (select id from functional.alltypes where id < 10)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id
+|  runtime filters: RF000 <- id
+|
+|--01:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: id < 10
+|
+00:SCAN HDFS [functional.alltypes]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: functional.alltypes.id < 10
+   runtime filters: RF000 -> id
+====
+# Predicate propagation with correlated subqueries
+select *
+from functional.alltypesagg a inner join functional.alltypes t on t.id = a.id
+where t.int_col < 10 and t.int_col in
+  (select int_col from functional.alltypessmall s where s.id = t.id)
+---- PLAN
+PLAN-ROOT SINK
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.id = s.id, t.int_col = int_col
+|  runtime filters: RF000 <- s.id, RF001 <- int_col
+|
+|--02:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.int_col < 10
+|
+03:HASH JOIN [INNER JOIN]
+|  hash predicates: a.id = t.id
+|  runtime filters: RF004 <- t.id
+|
+|--01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: t.int_col < 10
+|     runtime filters: RF000 -> t.id, RF001 -> t.int_col
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> a.id, RF004 -> a.id
+====
+# Correlated EXISTS
+select count(*)
+from functional.alltypes t
+where exists
+  (select * from functional.alltypesagg a where a.id = t.id)
+---- PLAN
+PLAN-ROOT SINK
+|
+03:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+02:HASH JOIN [RIGHT SEMI JOIN]
+|  hash predicates: a.id = t.id
+|  runtime filters: RF000 <- t.id
+|
+|--00:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|
+01:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> a.id
+====
+# Correlated EXISTS with an analytic function and a group by clause
+select 1
+from functional.alltypesagg a
+where exists
+  (select id, count(int_col) over (partition by bool_col)
+   from functional.alltypestiny b
+   where a.tinyint_col = b.tinyint_col
+   group by id, int_col, bool_col)
+and tinyint_col < 10
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.tinyint_col = b.tinyint_col
+|  runtime filters: RF000 <- b.tinyint_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  group by: id, int_col, bool_col, b.tinyint_col
+|  |
+|  01:SCAN HDFS [functional.alltypestiny b]
+|     partitions=4/4 files=4 size=460B
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: tinyint_col < 10
+   runtime filters: RF000 -> a.tinyint_col
+====
+# Correlated NOT EXISTS
+select count(*)
+from functional.alltypes t
+where not exists
+  (select id from functional.alltypesagg a where t.int_col = a.int_col)
+---- PLAN
+PLAN-ROOT SINK
+|
+03:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+02:HASH JOIN [RIGHT ANTI JOIN]
+|  hash predicates: a.int_col = t.int_col
+|
+|--00:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|
+01:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+====
+# Correlated NOT EXISTS with an analytic function and a group by clause
+select count(*)
+from functional.alltypesagg a
+where not exists
+  (select b.id, count(b.int_col) over (partition by b.bigint_col)
+   from functional.alltypessmall b inner join functional.alltypes c on b.id = c.id
+   where c.bool_col = false and a.int_col = b.int_col
+   group by b.id, b.int_col, b.bigint_col)
+and bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+06:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+05:HASH JOIN [LEFT ANTI JOIN]
+|  hash predicates: a.int_col = b.int_col
+|
+|--04:AGGREGATE [FINALIZE]
+|  |  group by: b.id, b.int_col, b.bigint_col
+|  |
+|  03:HASH JOIN [INNER JOIN]
+|  |  hash predicates: c.id = b.id
+|  |  runtime filters: RF000 <- b.id
+|  |
+|  |--01:SCAN HDFS [functional.alltypessmall b]
+|  |     partitions=4/4 files=4 size=6.32KB
+|  |
+|  02:SCAN HDFS [functional.alltypes c]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: c.bool_col = FALSE
+|     runtime filters: RF000 -> c.id
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: bool_col = FALSE
+====
+# Uncorrelated EXISTS
+select *
+from functional.alltypestiny t
+where exists (select * from functional.alltypessmall s where s.id < 5)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:NESTED LOOP JOIN [LEFT SEMI JOIN]
+|
+|--01:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.id < 5
+|     limit: 1
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+====
+# Uncorrelated EXISTS with an analytic function and a group by clause
+select 1
+from functional.alltypestiny t
+where exists
+  (select id, max(int_col) over (partition by bigint_col)
+   from functional.alltypesagg where tinyint_col = 10
+   group by id, int_col, bigint_col)
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [RIGHT SEMI JOIN]
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|
+02:AGGREGATE [FINALIZE]
+|  group by: id, int_col, bigint_col
+|  limit: 1
+|
+01:SCAN HDFS [functional.alltypesagg]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: tinyint_col = 10
+====
+# Uncorrelated EXISTS with a LIMIT 0 clause
+select 1
+from functional.alltypestiny t
+where exists (select * from functional.alltypessmall limit 0)
+---- PLAN
+PLAN-ROOT SINK
+|
+00:EMPTYSET
+====
+# Uncorrelated NOT EXISTS
+select *
+from functional.alltypestiny t
+where not exists (select * from functional.alltypessmall s where s.id < 5)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:NESTED LOOP JOIN [LEFT ANTI JOIN]
+|
+|--01:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.id < 5
+|     limit: 1
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+====
+# Uncorrelated NOT exists referencing a WITH clause
+with
+  w1 as (select * from functional.alltypestiny t),
+  w2 as (select * from functional.alltypessmall s where s.id < 0)
+select *
+from w1 t
+where not exists (select 1 from w2)
+---- PLAN
+PLAN-ROOT SINK
+|
+02:NESTED LOOP JOIN [LEFT ANTI JOIN]
+|
+|--01:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.id < 0
+|     limit: 1
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+====
+# Uncorrelated NOT EXISTS with an analytic function and a group by clause
+select 1
+from functional.alltypestiny t
+where not exists
+  (select id, max(int_col) over (partition by bigint_col)
+   from functional.alltypesagg where tinyint_col = 10
+   group by id, int_col, bigint_col)
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [RIGHT ANTI JOIN]
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|
+02:AGGREGATE [FINALIZE]
+|  group by: id, int_col, bigint_col
+|  limit: 1
+|
+01:SCAN HDFS [functional.alltypesagg]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: tinyint_col = 10
+====
+# Uncorrelated NOT EXISTS with a LIMIT 0 clause
+select 1
+from functional.alltypestiny t
+where not exists (select * from functional.alltypessmall limit 0)
+---- PLAN
+PLAN-ROOT SINK
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+====
+# Multiple nesting levels
+select count(*)
+from functional.alltypes a
+where exists
+  (select * from functional.alltypestiny t where a.id = t.id and exists
+    (select * from functional.alltypesagg g where g.int_col = t.int_col
+     and g.bool_col = false))
+---- PLAN
+PLAN-ROOT SINK
+|
+05:AGGREGATE [FINALIZE]
+|  output: count(*)
+|
+04:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.id = t.id
+|  runtime filters: RF000 <- t.id
+|
+|--03:HASH JOIN [RIGHT SEMI JOIN]
+|  |  hash predicates: g.int_col = t.int_col
+|  |  runtime filters: RF002 <- t.int_col
+|  |
+|  |--01:SCAN HDFS [functional.alltypestiny t]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  02:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: g.bool_col = FALSE
+|     runtime filters: RF002 -> g.int_col
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> a.id
+====
+# Multiple subquery predicates
+select g.int_col, count(*)
+from functional.alltypesagg g left outer join functional.alltypes a
+on g.id = a.id
+where g.int_col < 100 and exists
+  (select *
+   from functional.alltypestiny t
+   where t.id = g.id and t.bool_col = false)
+and g.bigint_col in
+  (select bigint_col
+   from functional.alltypessmall s
+   where s.id = g.id and s.int_col > 10)
+and g.tinyint_col <
+  (select count(*)
+   from functional.alltypes t
+   where t.id = g.id and t.bool_col = true)
+group by g.int_col
+having count(*) < 100
+---- PLAN
+PLAN-ROOT SINK
+|
+10:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: g.int_col
+|  having: count(*) < 100
+|
+09:HASH JOIN [RIGHT OUTER JOIN]
+|  hash predicates: t.id = g.id
+|  other predicates: g.tinyint_col < zeroifnull(count(*))
+|  runtime filters: RF000 <- g.id
+|
+|--08:HASH JOIN [RIGHT SEMI JOIN]
+|  |  hash predicates: bigint_col = g.bigint_col, s.id = g.id
+|  |  runtime filters: RF002 <- g.bigint_col, RF003 <- g.id
+|  |
+|  |--07:HASH JOIN [LEFT SEMI JOIN]
+|  |  |  hash predicates: g.id = t.id
+|  |  |  runtime filters: RF006 <- t.id
+|  |  |
+|  |  |--02:SCAN HDFS [functional.alltypestiny t]
+|  |  |     partitions=4/4 files=4 size=460B
+|  |  |     predicates: t.bool_col = FALSE
+|  |  |
+|  |  06:HASH JOIN [RIGHT OUTER JOIN]
+|  |  |  hash predicates: a.id = g.id
+|  |  |  runtime filters: RF008 <- g.id
+|  |  |
+|  |  |--00:SCAN HDFS [functional.alltypesagg g]
+|  |  |     partitions=11/11 files=11 size=814.73KB
+|  |  |     predicates: g.int_col < 100
+|  |  |     runtime filters: RF006 -> g.id
+|  |  |
+|  |  01:SCAN HDFS [functional.alltypes a]
+|  |     partitions=24/24 files=24 size=478.45KB
+|  |     runtime filters: RF006 -> a.id, RF008 -> a.id
+|  |
+|  03:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.int_col > 10
+|     runtime filters: RF002 -> bigint_col, RF003 -> s.id
+|
+05:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: t.id
+|
+04:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: t.bool_col = TRUE
+   runtime filters: RF000 -> t.id
+====
+# Subqueries with aggregation
+select *
+from functional.alltypes a
+where a.int_col in
+  (select count(int_col) from functional.alltypesagg g where g.bool_col
+  group by int_col)
+and a.bigint_col < 10
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.int_col = count(int_col)
+|  runtime filters: RF000 <- count(int_col)
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: count(int_col)
+|  |  group by: int_col
+|  |
+|  01:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: g.bool_col
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: a.bigint_col < 10
+   runtime filters: RF000 -> a.int_col
+====
+# Uncorrelated aggregation subquery
+select *
+from functional.alltypes a
+where a.int_col <
+  (select max(int_col) from functional.alltypesagg g where g.bool_col = true)
+and a.bigint_col > 10
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [INNER JOIN]
+|  predicates: a.int_col < max(int_col)
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: max(int_col)
+|  |
+|  01:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: g.bool_col = TRUE
+|
+00:SCAN HDFS [functional.alltypes a]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: a.bigint_col > 10
+====
+# Aggregation subquery with constant comparison expr
+select *
+from functional.alltypesagg a
+where (select max(id) from functional.alltypes t where t.bool_col = false) > 10
+and a.int_col < 10
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [CROSS JOIN]
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: max(id)
+|  |  having: max(id) > 10
+|  |
+|  01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: t.bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: a.int_col < 10
+====
+# Correlated aggregation subquery
+select a.int_col, count(*)
+from functional.alltypesagg a
+where a.id =
+  (select min(id)
+   from functional.alltypes t
+   where t.int_col = a.int_col and t.tinyint_col < 10)
+and a.bool_col = false
+group by a.int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+04:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: a.int_col
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: a.id = min(id), a.int_col = t.int_col
+|  runtime filters: RF000 <- min(id), RF001 <- t.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: t.tinyint_col < 10
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: a.bool_col = FALSE
+   runtime filters: RF000 -> a.id, RF001 -> a.int_col
+====
+# Aggregation subquery with multiple tables
+select t.tinyint_col, count(*)
+from functional.alltypes t left outer join functional.alltypesagg a
+on t.id = a.id
+where t.int_col <
+  (select min(s.int_col)
+   from functional.alltypessmall s left outer join functional.alltypestiny p
+   on s.id = p.id where s.bool_col = false and s.bigint_col = t.bigint_col)
+and a.bool_col = false
+group by t.tinyint_col
+---- PLAN
+PLAN-ROOT SINK
+|
+08:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: t.tinyint_col
+|
+07:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.bigint_col = s.bigint_col
+|  other join predicates: t.int_col < min(s.int_col)
+|  runtime filters: RF000 <- s.bigint_col
+|
+|--05:AGGREGATE [FINALIZE]
+|  |  output: min(s.int_col)
+|  |  group by: s.bigint_col
+|  |
+|  04:HASH JOIN [LEFT OUTER JOIN]
+|  |  hash predicates: s.id = p.id
+|  |
+|  |--03:SCAN HDFS [functional.alltypestiny p]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  02:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.bool_col = FALSE
+|
+06:HASH JOIN [LEFT OUTER JOIN]
+|  hash predicates: t.id = a.id
+|  other predicates: a.bool_col = FALSE
+|
+|--01:SCAN HDFS [functional.alltypesagg a]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: a.bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> t.bigint_col
+====
+# Multiple aggregation subqueries
+select *
+from functional.alltypesagg a, functional.alltypes t
+where a.id = t.id and a.int_col <
+  (select min(int_col)
+   from functional.alltypestiny g
+   where t.bigint_col = g.bigint_col and g.bool_col = false)
+and a.tinyint_col >
+  (select max(tinyint_col) from functional.alltypessmall s where s.id < 10)
+and t.bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+08:NESTED LOOP JOIN [INNER JOIN]
+|  predicates: a.tinyint_col > max(tinyint_col)
+|
+|--05:AGGREGATE [FINALIZE]
+|  |  output: max(tinyint_col)
+|  |
+|  04:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.id < 10
+|
+07:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.bigint_col = g.bigint_col
+|  other join predicates: a.int_col < min(int_col)
+|  runtime filters: RF000 <- g.bigint_col
+|
+|--03:AGGREGATE [FINALIZE]
+|  |  output: min(int_col)
+|  |  group by: g.bigint_col
+|  |
+|  02:SCAN HDFS [functional.alltypestiny g]
+|     partitions=4/4 files=4 size=460B
+|     predicates: g.bool_col = FALSE
+|
+06:HASH JOIN [INNER JOIN]
+|  hash predicates: a.id = t.id
+|  runtime filters: RF002 <- t.id
+|
+|--01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: t.bool_col = FALSE
+|     runtime filters: RF000 -> t.bigint_col
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF002 -> a.id
+====
+# Multiple nesting levels with aggregation subqueries
+select *
+from functional.alltypes t
+where t.int_col <
+  (select avg(g.int_col)*2
+   from functional.alltypesagg g
+   where g.id = t.id and g.bigint_col <
+     (select count(*)
+      from functional.alltypestiny a
+      where a.id = g.id
+      and a.bool_col = false))
+---- PLAN
+PLAN-ROOT SINK
+|
+06:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.id = g.id
+|  other join predicates: t.int_col < avg(g.int_col) * 2
+|  runtime filters: RF000 <- g.id
+|
+|--05:AGGREGATE [FINALIZE]
+|  |  output: avg(g.int_col)
+|  |  group by: g.id
+|  |
+|  04:HASH JOIN [LEFT OUTER JOIN]
+|  |  hash predicates: g.id = a.id
+|  |  other predicates: g.bigint_col < zeroifnull(count(*))
+|  |
+|  |--03:AGGREGATE [FINALIZE]
+|  |  |  output: count(*)
+|  |  |  group by: a.id
+|  |  |
+|  |  02:SCAN HDFS [functional.alltypestiny a]
+|  |     partitions=4/4 files=4 size=460B
+|  |     predicates: a.bool_col = FALSE
+|  |
+|  01:SCAN HDFS [functional.alltypesagg g]
+|     partitions=11/11 files=11 size=814.73KB
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> t.id
+====
+# Multiple nesting of aggregate subquery predicates with count
+select *
+from functional.alltypesagg a left outer join functional.alltypes t
+on a.id = t.id
+where a.int_col <
+  (select count(*)
+   from functional.alltypessmall s
+   where s.id = a.id and s.tinyint_col >
+     (select count(*) from functional.alltypestiny where bool_col = false))
+---- PLAN
+PLAN-ROOT SINK
+|
+08:HASH JOIN [LEFT OUTER JOIN]
+|  hash predicates: a.id = s.id
+|  other predicates: a.int_col < zeroifnull(count(*))
+|
+|--06:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |  group by: s.id
+|  |
+|  05:NESTED LOOP JOIN [INNER JOIN]
+|  |  predicates: s.tinyint_col > count(*)
+|  |
+|  |--04:AGGREGATE [FINALIZE]
+|  |  |  output: count(*)
+|  |  |
+|  |  03:SCAN HDFS [functional.alltypestiny]
+|  |     partitions=4/4 files=4 size=460B
+|  |     predicates: bool_col = FALSE
+|  |
+|  02:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|
+07:HASH JOIN [LEFT OUTER JOIN]
+|  hash predicates: a.id = t.id
+|
+|--01:SCAN HDFS [functional.alltypes t]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg a]
+   partitions=11/11 files=11 size=814.73KB
+====
+# Distinct in the outer select block
+select distinct id, bool_col
+from functional.alltypesagg g
+where 100 < (select count(*) from functional.alltypes where bool_col = false and id < 5)
+and bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+04:AGGREGATE [FINALIZE]
+|  group by: id, bool_col
+|
+03:NESTED LOOP JOIN [CROSS JOIN]
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |  having: count(*) > 100
+|  |
+|  01:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: id < 5, bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypesagg g]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: bool_col = FALSE
+====
+# Distinct with an unqualified star in the outer select block
+select distinct *
+from functional.alltypesagg g
+where 100 > (select count(distinct id) from functional.alltypestiny where int_col < 5)
+and g.bigint_col < 1000 and g.bigint_col = true
+---- PLAN
+PLAN-ROOT SINK
+|
+05:AGGREGATE [FINALIZE]
+|  group by: g.id, g.bool_col, g.tinyint_col, g.smallint_col, g.int_col, g.bigint_col, g.float_col, g.double_col, g.date_string_col, g.string_col, g.timestamp_col, g.year, g.month, g.day
+|
+04:NESTED LOOP JOIN [CROSS JOIN]
+|
+|--03:AGGREGATE [FINALIZE]
+|  |  output: count(id)
+|  |  having: count(id) < 100
+|  |
+|  02:AGGREGATE
+|  |  group by: id
+|  |
+|  01:SCAN HDFS [functional.alltypestiny]
+|     partitions=4/4 files=4 size=460B
+|     predicates: int_col < 5
+|
+00:SCAN HDFS [functional.alltypesagg g]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: g.bigint_col = 1
+====
+# Aggregate subquery in an IS NULL predicate
+select *
+from functional.alltypestiny t
+where (select max(int_col) from functional.alltypesagg where int_col is null) is null
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [CROSS JOIN]
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: max(int_col)
+|  |  having: max(int_col) IS NULL
+|  |
+|  01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: int_col IS NULL
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+====
+# Correlated aggregate subquery with a count in an IS NULL predicate
+select int_col, count(*)
+from functional.alltypestiny t
+where (select count(*) from functional.alltypesagg g where t.id = g.id) is null
+and bool_col = false
+group by int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+04:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: int_col
+|
+03:HASH JOIN [RIGHT OUTER JOIN]
+|  hash predicates: g.id = t.id
+|  other predicates: zeroifnull(count(*)) IS NULL
+|  runtime filters: RF000 <- t.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|     predicates: bool_col = FALSE
+|
+02:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: g.id
+|  having: zeroifnull(count(*)) IS NULL
+|
+01:SCAN HDFS [functional.alltypesagg g]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> g.id
+====
+# Correlated aggregate subquery in an IS NULL predicate
+select *
+from functional.alltypestiny t
+where
+  (select max(int_col)
+   from functional.alltypesagg g
+   where g.id = t.id and g.int_col is null) is null
+and t.bool_col = false
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [RIGHT SEMI JOIN]
+|  hash predicates: g.id = t.id
+|  runtime filters: RF000 <- t.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|     predicates: t.bool_col = FALSE
+|
+02:AGGREGATE [FINALIZE]
+|  output: max(int_col)
+|  group by: g.id
+|  having: max(int_col) IS NULL
+|
+01:SCAN HDFS [functional.alltypesagg g]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: g.int_col IS NULL
+   runtime filters: RF000 -> g.id
+====
+# Complex expr with a scalar subquery
+select *
+from functional.alltypestiny t
+where 1 +
+  (select count(*) from functional.alltypesagg where bool_col = false) = t.int_col + 2
+and t.bigint_col < 100
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.int_col + 2 = 1 + count(*)
+|  runtime filters: RF000 <- 1 + count(*)
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |
+|  01:SCAN HDFS [functional.alltypesagg]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+   predicates: t.bigint_col < 100
+   runtime filters: RF000 -> t.int_col + 2
+====
+# Scalar subquery in a function
+select *
+from functional.alltypestiny t
+where nullifzero((select min(id) from functional.alltypessmall s where s.bool_col = false))
+  is null
+and t.id < 10
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [CROSS JOIN]
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  having: nullifzero(min(id)) IS NULL
+|  |
+|  01:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: s.bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+   predicates: t.id < 10
+====
+# Correlated aggregate subquery with a LIMIT clause that is removed during the rewrite
+select min(t.id)
+from functional.alltypes t
+where t.int_col <
+  (select sum(s.int_col)
+   from functional.alltypessmall s
+   where s.id = t.id
+   limit 1)
+group by t.bool_col
+---- PLAN
+PLAN-ROOT SINK
+|
+04:AGGREGATE [FINALIZE]
+|  output: min(t.id)
+|  group by: t.bool_col
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t.id = s.id
+|  other join predicates: t.int_col < sum(s.int_col)
+|  runtime filters: RF000 <- s.id
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: sum(s.int_col)
+|  |  group by: s.id
+|  |
+|  01:SCAN HDFS [functional.alltypessmall s]
+|     partitions=4/4 files=4 size=6.32KB
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> t.id
+====
+# Between predicate with subqueries
+select *
+from functional.alltypestiny t
+where int_col between
+  (select min(int_col) from functional.alltypessmall where bool_col = false) and
+  (select max(int_col) from functional.alltypessmall where bool_col = true)
+---- PLAN
+PLAN-ROOT SINK
+|
+06:NESTED LOOP JOIN [INNER JOIN]
+|  predicates: int_col <= max(int_col)
+|
+|--04:AGGREGATE [FINALIZE]
+|  |  output: max(int_col)
+|  |
+|  03:SCAN HDFS [functional.alltypessmall]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: bool_col = TRUE
+|
+05:NESTED LOOP JOIN [INNER JOIN]
+|  predicates: int_col >= min(int_col)
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(int_col)
+|  |
+|  01:SCAN HDFS [functional.alltypessmall]
+|     partitions=4/4 files=4 size=6.32KB
+|     predicates: bool_col = FALSE
+|
+00:SCAN HDFS [functional.alltypestiny t]
+   partitions=4/4 files=4 size=460B
+====
+# Aggregate subquery with count (subquery op slotRef)
+select t1.id
+from functional.alltypestiny t1
+where
+  (select count(tt1.smallint_col) as int_col_1
+   from functional.alltypestiny tt1
+   where t1.id = tt1.month) < t1.id
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [RIGHT OUTER JOIN]
+|  hash predicates: tt1.month = t1.id
+|  other predicates: t1.id > zeroifnull(count(tt1.smallint_col))
+|  runtime filters: RF000 <- t1.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t1]
+|     partitions=4/4 files=4 size=460B
+|
+02:AGGREGATE [FINALIZE]
+|  output: count(tt1.smallint_col)
+|  group by: tt1.month
+|
+01:SCAN HDFS [functional.alltypestiny tt1]
+   partitions=4/4 files=4 size=460B
+   runtime filters: RF000 -> tt1.month
+====
+# Correlated aggregate subquery with count in a function participating in
+# a complex arithmetic expr
+select int_col, count(*)
+from functional.alltypestiny t
+where
+  1 + log(abs((select count(int_col) from functional.alltypes s where s.id = t.id)), 2)
+  < 10
+group by int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+04:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: int_col
+|
+03:HASH JOIN [RIGHT OUTER JOIN]
+|  hash predicates: s.id = t.id
+|  other predicates: 1 + log(abs(zeroifnull(count(int_col))), 2) < 10
+|  runtime filters: RF000 <- t.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|
+02:AGGREGATE [FINALIZE]
+|  output: count(int_col)
+|  group by: s.id
+|
+01:SCAN HDFS [functional.alltypes s]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> s.id
+====
+# Correlated scalar subquery with an aggregate function that returns a
+# non-numeric type on empty input
+select int_col, count(*)
+from functional.alltypestiny t
+where
+  (select sample(int_col) from functional.alltypes s where s.id = t.id) = t.string_col
+and bool_col = false
+group by int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+04:AGGREGATE [FINALIZE]
+|  output: count(*)
+|  group by: int_col
+|
+03:HASH JOIN [RIGHT OUTER JOIN]
+|  hash predicates: s.id = t.id
+|  other predicates: t.string_col = ifnull(sample(int_col), '')
+|  runtime filters: RF000 <- t.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|     predicates: bool_col = FALSE
+|
+02:AGGREGATE [FINALIZE]
+|  output: sample(int_col)
+|  group by: s.id
+|
+01:SCAN HDFS [functional.alltypes s]
+   partitions=24/24 files=24 size=478.45KB
+   runtime filters: RF000 -> s.id
+====
+# Uncorrelated scalar subquery where columns from the outer appear in both sides
+# of the binary predicate
+select 1
+from functional.alltypestiny t1
+where (select count(*) from functional.alltypessmall) + t1.int_col = t1.bigint_col - 1
+---- PLAN
+PLAN-ROOT SINK
+|
+03:NESTED LOOP JOIN [INNER JOIN]
+|  predicates: count(*) + t1.int_col = t1.bigint_col - 1
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |
+|  01:SCAN HDFS [functional.alltypessmall]
+|     partitions=4/4 files=4 size=6.32KB
+|
+00:SCAN HDFS [functional.alltypestiny t1]
+   partitions=4/4 files=4 size=460B
+====
+# Uncorrelated scalar subquery in complex binary predicate that contains columns
+# from two tables of the outer
+select 1
+from functional.alltypestiny t1 join functional.alltypessmall t2 on t1.id = t2.id
+where (select count(*) from functional.alltypes) + 1 = t1.int_col + t2.int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+05:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.int_col + t2.int_col = count(*) + 1
+|
+|--03:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |
+|  02:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|
+04:HASH JOIN [INNER JOIN]
+|  hash predicates: t2.id = t1.id
+|  runtime filters: RF000 <- t1.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t1]
+|     partitions=4/4 files=4 size=460B
+|
+01:SCAN HDFS [functional.alltypessmall t2]
+   partitions=4/4 files=4 size=6.32KB
+   runtime filters: RF000 -> t2.id
+====
+# Uncorrelated scalar subquery in complex binary predicate that contains columns
+# from two tables of the outer that appear in both sides of the predicate
+select 1
+from functional.alltypestiny t1 join functional.alltypessmall t2 on t1.id = t2.id
+where
+  (select count(*) from functional.alltypes) + t2.bigint_col = t1.int_col + t2.int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+05:NESTED LOOP JOIN [INNER JOIN]
+|  predicates: count(*) + t2.bigint_col = t1.int_col + t2.int_col
+|
+|--03:AGGREGATE [FINALIZE]
+|  |  output: count(*)
+|  |
+|  02:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|
+04:HASH JOIN [INNER JOIN]
+|  hash predicates: t2.id = t1.id
+|  runtime filters: RF000 <- t1.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t1]
+|     partitions=4/4 files=4 size=460B
+|
+01:SCAN HDFS [functional.alltypessmall t2]
+   partitions=4/4 files=4 size=6.32KB
+   runtime filters: RF000 -> t2.id
+====
+# Correlated scalar subquery with complex correlated predicate (IMPALA-1335)
+select 1
+from functional.alltypestiny t
+where
+  (select sum(t1.id)
+   from functional.alltypesagg t1 inner join functional.alltypes t2 on t1.id = t2.id
+   where t1.id + t2.id = t.int_col) = t.int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+05:HASH JOIN [RIGHT SEMI JOIN]
+|  hash predicates: t1.id + t2.id = t.int_col
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|
+04:AGGREGATE [FINALIZE]
+|  output: sum(t1.id)
+|  group by: t1.id + t2.id
+|  having: sum(t1.id) = t1.id + t2.id
+|
+03:HASH JOIN [INNER JOIN]
+|  hash predicates: t1.id = t2.id
+|  runtime filters: RF002 <- t2.id
+|
+|--02:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+01:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF002 -> t1.id
+====
+# Correlated scalar subquery with complex correlared predicate (IMPALA-1335)
+select 1
+from functional.alltypestiny t
+where
+  (select sum(t1.id)
+   from functional.alltypesagg t1 inner join functional.alltypes t2 on t1.id = t2.id
+   where t1.id + t2.id = t.bigint_col) = t.int_col
+---- PLAN
+PLAN-ROOT SINK
+|
+05:HASH JOIN [RIGHT SEMI JOIN]
+|  hash predicates: t1.id + t2.id = t.bigint_col, sum(t1.id) = t.int_col
+|
+|--00:SCAN HDFS [functional.alltypestiny t]
+|     partitions=4/4 files=4 size=460B
+|
+04:AGGREGATE [FINALIZE]
+|  output: sum(t1.id)
+|  group by: t1.id + t2.id
+|
+03:HASH JOIN [INNER JOIN]
+|  hash predicates: t1.id = t2.id
+|  runtime filters: RF004 <- t2.id
+|
+|--02:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+01:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF004 -> t1.id
+====
+# Outer query block with multiple tables and a correlated scalar subquery with
+# complex correlated predicate that references multiple subquery tables and multiple
+# tables from the outer query block (IMPALA-1335)
+select 1
+from functional.alltypestiny t1 inner join functional.alltypessmall t2 on t1.id = t2.id
+where
+  (select sum(tt1.id)
+   from functional.alltypesagg tt1 inner join functional.alltypes tt2
+   on tt1.int_col = tt2.int_col
+   where tt1.id + tt2.id = t1.int_col - t2.int_col) = t1.bigint_col
+---- PLAN
+PLAN-ROOT SINK
+|
+07:HASH JOIN [RIGHT SEMI JOIN]
+|  hash predicates: sum(tt1.id) = t1.bigint_col, tt1.id + tt2.id = t1.int_col - t2.int_col
+|
+|--06:HASH JOIN [INNER JOIN]
+|  |  hash predicates: t2.id = t1.id
+|  |  runtime filters: RF004 <- t1.id
+|  |
+|  |--00:SCAN HDFS [functional.alltypestiny t1]
+|  |     partitions=4/4 files=4 size=460B
+|  |
+|  01:SCAN HDFS [functional.alltypessmall t2]
+|     partitions=4/4 files=4 size=6.32KB
+|     runtime filters: RF004 -> t2.id
+|
+05:AGGREGATE [FINALIZE]
+|  output: sum(tt1.id)
+|  group by: tt1.id + tt2.id
+|
+04:HASH JOIN [INNER JOIN]
+|  hash predicates: tt1.int_col = tt2.int_col
+|  runtime filters: RF002 <- tt2.int_col
+|
+|--03:SCAN HDFS [functional.alltypes tt2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+02:SCAN HDFS [functional.alltypesagg tt1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF002 -> tt1.int_col
+====
+# IMPALA-1550/IMPALA-4423: Correlated EXISTS and NOT EXISTS subqueries with aggregates
+# that can be evaluated at query compile time. All predicates evaluate to FALSE.
+select 1
+from functional.alltypestiny t1
+where exists
+  (select id
+   from functional.alltypes t2
+   where t1.int_col = t2.int_col limit 0)
+and not exists
+  (select count(distinct int_col)
+   from functional.alltypesagg t3
+   where t1.id = t3.id)
+and not exists
+  (select min(int_col)
+   from functional.alltypestiny t5
+   where t1.id = t5.id and false)
+---- PLAN
+PLAN-ROOT SINK
+|
+00:EMPTYSET
+====
+# IMPALA-1550/IMPALA-4423: Correlated EXISTS and NOT EXISTS subqueries with aggregates
+# that can be evaluated at query compile time. All predicates evaluate to TRUE.
+select 1
+from functional.alltypestiny t1
+where not exists
+  (select id
+   from functional.alltypes t2
+   where t1.int_col = t2.int_col limit 0)
+and exists
+  (select count(distinct int_col), sum(distinct int_col)
+   from functional.alltypesagg t3
+   where t1.id = t3.id)
+and not exists
+  (select sum(int_col)
+   from functional.alltypessmall t4
+   where t1.id = t4.id limit 0)
+and not exists
+  (select min(int_col)
+   from functional.alltypestiny t5
+   where t1.id = t5.id having false)
+---- PLAN
+PLAN-ROOT SINK
+|
+00:SCAN HDFS [functional.alltypestiny t1]
+   partitions=4/4 files=4 size=460B
+====
+# Correlated EXISTS and NOT EXISTS subqueries with limit 0 and
+# aggregates. Some predicates evaluate to TRUE while others need to
+# be evaluated at run-time. (IMPALA-1550)
+select 1
+from functional.alltypestiny t1
+where not exists
+  (select id
+   from functional.alltypes t2
+   where t1.int_col = t2.int_col limit 0)
+and exists
+  (select distinct int_col
+   from functional.alltypesagg t3
+   where t3.id > 100 and t1.id = t3.id)
+and not exists
+  (select count(id)
+   from functional.alltypestiny t4
+   where t4.int_col = t1.tinyint_col
+   having count(id) > 200)
+---- PLAN
+PLAN-ROOT SINK
+|
+06:HASH JOIN [LEFT ANTI JOIN]
+|  hash predicates: t1.tinyint_col = t4.int_col
+|
+|--04:AGGREGATE [FINALIZE]
+|  |  output: count(id)
+|  |  group by: t4.int_col
+|  |  having: count(id) > 200
+|  |
+|  03:SCAN HDFS [functional.alltypestiny t4]
+|     partitions=4/4 files=4 size=460B
+|
+05:HASH JOIN [RIGHT SEMI JOIN]
+|  hash predicates: t3.id = t1.id
+|  runtime filters: RF000 <- t1.id
+|
+|--00:SCAN HDFS [functional.alltypestiny t1]
+|     partitions=4/4 files=4 size=460B
+|     predicates: t1.id > 100
+|
+02:AGGREGATE [FINALIZE]
+|  group by: int_col, t3.id
+|
+01:SCAN HDFS [functional.alltypesagg t3]
+   partitions=11/11 files=11 size=814.73KB
+   predicates: t3.id > 100
+   runtime filters: RF000 -> t3.id
+====
+# Tests for <=> (aka IS NOT DISTINCT FROM) and IS DISTINCT FROM
+select * from functional.alltypesagg t1
+where t1.id is not distinct from
+(select min(id) from functional.alltypes t2
+where t1.int_col is not distinct from t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.id IS NOT DISTINCT FROM min(id), t1.int_col IS NOT DISTINCT FROM t2.int_col
+|  runtime filters: RF000 <- min(id), RF001 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.id, RF001 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id is distinct from
+(select min(id) from functional.alltypes t2
+where t1.int_col is not distinct from t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.int_col IS NOT DISTINCT FROM t2.int_col
+|  other join predicates: t1.id IS DISTINCT FROM min(id)
+|  runtime filters: RF000 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id =
+(select min(id) from functional.alltypes t2
+where t1.int_col is not distinct from t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.id = min(id), t1.int_col IS NOT DISTINCT FROM t2.int_col
+|  runtime filters: RF000 <- min(id), RF001 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.id, RF001 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id !=
+(select min(id) from functional.alltypes t2
+where t1.int_col is not distinct from t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.int_col IS NOT DISTINCT FROM t2.int_col
+|  other join predicates: t1.id != min(id)
+|  runtime filters: RF000 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id is not distinct from
+(select min(id) from functional.alltypes t2
+where t1.int_col = t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.id IS NOT DISTINCT FROM min(id), t1.int_col = t2.int_col
+|  runtime filters: RF000 <- min(id), RF001 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.id, RF001 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id is distinct from
+(select min(id) from functional.alltypes t2
+where t1.int_col = t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.int_col = t2.int_col
+|  other join predicates: t1.id IS DISTINCT FROM min(id)
+|  runtime filters: RF000 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id =
+(select min(id) from functional.alltypes t2
+where t1.int_col = t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.id = min(id), t1.int_col = t2.int_col
+|  runtime filters: RF000 <- min(id), RF001 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.id, RF001 -> t1.int_col
+====
+select * from functional.alltypesagg t1
+where t1.id !=
+(select min(id) from functional.alltypes t2
+where t1.int_col = t2.int_col);
+---- PLAN
+PLAN-ROOT SINK
+|
+03:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: t1.int_col = t2.int_col
+|  other join predicates: t1.id != min(id)
+|  runtime filters: RF000 <- t2.int_col
+|
+|--02:AGGREGATE [FINALIZE]
+|  |  output: min(id)
+|  |  group by: t2.int_col
+|  |
+|  01:SCAN HDFS [functional.alltypes t2]
+|     partitions=24/24 files=24 size=478.45KB
+|
+00:SCAN HDFS [functional.alltypesagg t1]
+   partitions=11/11 files=11 size=814.73KB
+   runtime filters: RF000 -> t1.int_col
+====
+# IMPALA-3861: Test that IN subqueries with correlated BETWEEN predicates work.
+select 1 from functional.alltypes t where id in
+  (select id from functional.alltypesagg a where
+   a.tinyint_col between t.tinyint_col and t.smallint_col and
+   a.smallint_col between 10 and t.int_col and
+   20 between t.bigint_col and a.int_col and
+   t.float_col between a.float_col and a.double_col and
+   t.string_col between a.string_col and t.date_string_col and
+   a.double_col between round(acos(t.float_col), 2)
+                and cast(t.string_col as int))
+---- PLAN
+PLAN-ROOT SINK
+|
+02:HASH JOIN [LEFT SEMI JOIN]
+|  hash predicates: id = id
+|  other join predicates: a.tinyint_col >= t.tinyint_col, t.float_col >= a.float_col, a.smallint_col <= t.int_col, a.tinyint_col <= t.smallint_col, t.float_col <= a.double_col, a.double_col <= CAST(t.string_col AS INT), t.string_col >= a.string_col, a.double_col >= round(acos(t.float_col), 2)
+|  runtime filters: RF000 <- id
+|
+|--01:SCAN HDFS [functional.alltypesagg a]
+|     partitions=11/11 files=11 size=814.73KB
+|     predicates: a.int_col >= 20, a.smallint_col >= 10
+|
+00:SCAN HDFS [functional.alltypes t]
+   partitions=24/24 files=24 size=478.45KB
+   predicates: t.bigint_col <= 20, t.string_col <= t.date_string_col
+   runtime filters: RF000 -> id
+====
+# IMPALA-4423: Correlated EXISTS and NOT EXISTS subqueries with aggregates. Both
+# subqueries can be evaluated at query compile time. The first one evaluates to
+# TRUE and the second one to FALSE.
+select 1
+from functional.alltypestiny t1
+where not exists
+  (select id
+   from functional.alltypes t2
+   where t1.int_col = t2.int_col limit 0)
+and not exists
+  (select min(int_col)
+   from functional.alltypestiny t5
+   where t1.id = t5.id and false)
+---- PLAN
+PLAN-ROOT SINK
+|
+00:EMPTYSET
+====
+# IMPALA-4303: Test subquery rewriting with nested unions.
+select * from functional.alltypestiny
+where exists (select 1 from functional.alltypes where int_col < 10)
+union all
+  (select * from functional.alltypestiny where year=2009 and month=1
+   union all
+   select * from functional.alltypestiny where year=2009 and month=2)
+---- PLAN
+PLAN-ROOT SINK
+|
+00:UNION
+|  pass-through-operands: all
+|
+|--05:SCAN HDFS [functional.alltypestiny]
+|     partitions=1/4 files=1 size=115B
+|
+|--04:SCAN HDFS [functional.alltypestiny]
+|     partitions=1/4 files=1 size=115B
+|
+03:NESTED LOOP JOIN [LEFT SEMI JOIN]
+|
+|--02:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: int_col < 10
+|     limit: 1
+|
+01:SCAN HDFS [functional.alltypestiny]
+   partitions=4/4 files=4 size=460B
+====
+# IMPALA-4303: Test subquery rewriting with nested unions.
+select * from functional.alltypestiny
+where exists (select 1 from functional.alltypes where int_col < 10)
+union distinct
+  (select * from functional.alltypestiny where year=2009 and month=1
+   union distinct
+   select * from functional.alltypestiny where year=2009 and month=2)
+---- PLAN
+PLAN-ROOT SINK
+|
+06:AGGREGATE [FINALIZE]
+|  group by: id, bool_col, tinyint_col, smallint_col, int_col, bigint_col, float_col, double_col, date_string_col, string_col, timestamp_col, year, month
+|
+00:UNION
+|  pass-through-operands: all
+|
+|--05:SCAN HDFS [functional.alltypestiny]
+|     partitions=1/4 files=1 size=115B
+|
+|--04:SCAN HDFS [functional.alltypestiny]
+|     partitions=1/4 files=1 size=115B
+|
+03:NESTED LOOP JOIN [LEFT SEMI JOIN]
+|
+|--02:SCAN HDFS [functional.alltypes]
+|     partitions=24/24 files=24 size=478.45KB
+|     predicates: int_col < 10
+|     limit: 1
+|
+01:SCAN HDFS [functional.alltypestiny]
+   partitions=4/4 files=4 size=460B
+====

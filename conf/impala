@@ -1,0 +1,13 @@
+IMPALA_BACKEND_PORT=22000
+IMPALA_LOG_DIR=/data/jun.zhang/impala/logs/simple
+IMPALA_CATALOG_SERVICE_HOST=localhost
+IMPALA_STATE_STORE_HOST=localhost
+
+IMPALA_SERVER_ARGS=" \
+    -log_dir=${IMPALA_LOG_DIR} \
+    -catalog_service_host=${IMPALA_CATALOG_SERVICE_HOST} \
+    -use_statestore \
+    -state_store_host=${IMPALA_STATE_STORE_HOST} \
+    -mem_limit=70% \
+    -default_pool_max_requests=-1 \
+    -be_port=${IMPALA_BACKEND_PORT} " 

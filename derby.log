@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Feb 08 17:09:13 CST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0161-74ad-0dbb-00000b1711b0 
+on database directory /data/jun.zhang/impala-2.11.0-cdh5.14.0/metastore_db with class loader sun.misc.Launcher$AppClassLoader@73795327 
+Loaded from file:/data/jun.zhang/impala-2.11.0-cdh5.14.0/thirdparty/hive-1.1.0-cdh5.14.0/lib/derby-10.11.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_67-b01
+user.dir=/data/jun.zhang/impala-2.11.0-cdh5.14.0
+os.name=Linux
+os.arch=amd64
+os.version=4.14.3-1.el7.elrepo.x86_64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

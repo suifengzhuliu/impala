@@ -1,0 +1,10 @@
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/AllocationConfigurationException.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/resource/ResourceWeights.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/QueuePlacementPolicy.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/AllocationConfiguration.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/AllocationFileLoaderService.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/QueuePlacementRule.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/utils/BuilderUtils.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/SchedulingPolicy.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/FSQueueType.java
+/data/jun.zhang/impala-2.11.0-cdh5.14.0/common/yarn-extras/src/main/java/org/apache/impala/yarn/server/resourcemanager/scheduler/fair/FairSchedulerConfiguration.java
